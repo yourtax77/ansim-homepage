@@ -1,0 +1,51 @@
+# 홈페이지 자동 배포
+# - main 브랜치에 올리면 바로 배포
+# - 하루 4번(한국시간 0·6·12·18시) 유튜브 최신 영상 목록을 새로 받아 다시 배포
+name: 홈페이지 배포
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 3,9,15,21 * * *'   # UTC 기준 = 한국시간 12·18·0·6시
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 유튜브 최신 영상 목록 갱신
+        run: node tools/update-youtube.js
+        continue-on-error: true   # 유튜브 응답이 실패해도 기존 목록으로 배포
+
+      - name: 공개할 파일만 모으기
+        run: |
+          mkdir _site
+          cp -r index.html office.js CNAME calculator japan-china privacy images data _site/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
