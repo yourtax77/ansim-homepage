@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -47,5 +47,15 @@ jobs:
         with:
           path: _site
 
+      # GitHub가 방금 올린 묶음을 바로 못 찾는 일시 오류가 가끔 있어, 실패하면 잠시 후 한 번 더 시도합니다.
       - id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: 잠시 대기 후 재시도 준비
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+
+      - id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
