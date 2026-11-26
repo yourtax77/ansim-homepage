@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.xn--hg4bqo16a96d.com/sitemap.xml

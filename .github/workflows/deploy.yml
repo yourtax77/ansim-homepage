@@ -39,7 +39,7 @@ jobs:
       - name: 공개할 파일만 모으기
         run: |
           mkdir _site
-          cp -r index.html office.js CNAME calculator japan-china privacy images data _site/
+          cp -r index.html office.js CNAME robots.txt sitemap.xml llms.txt assets calculator japan-china intl ja zh privacy images data _site/
 
       - uses: actions/configure-pages@v5
 
