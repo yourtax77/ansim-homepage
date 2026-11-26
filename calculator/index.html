@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>상속세 계산기 | 안심상속센터</title>
-<meta name="description" content="2026년 현행 상속세 및 증여세법 기준. 상속재산과 가족 구성을 입력하면 예상 상속세, 공제 내역, 신고기한을 바로 계산합니다. 회원가입·연락처 입력 없이 무료.">
+<title>상속세 미리보기 | 안심상속센터</title>
+<meta name="description" content="가족, 재산, 미리 준 재산 세 가지만 답하면 예상 상속세와 가족별 부담, 신고기한, 상담 준비물까지 한 번에 정리해 드립니다. 2026년 현행 세법 기준.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root {
@@ -18,9 +18,7 @@
     --brand-soft: #e7f0ec;
     --accent: #b8863b;
     --accent-soft: #f7efe1;
-    --warn: #a2412a;
-    --warn-soft: #fbeee9;
-    --radius: 14px;
+    --radius: 16px;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -30,349 +28,324 @@
     font-size: 16px; line-height: 1.6; word-break: keep-all;
   }
   a { color: inherit; }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
-
-  /* 상단바 */
-  .topbar { background: var(--brand); color: #fff; }
-  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-  .brand { display: flex; flex-direction: column; line-height: 1.15; text-decoration: none; }
-  .brand b { font-size: 18px; font-weight: 800; letter-spacing: -0.04em; }
-  .brand small { font-size: 11px; opacity: .8; white-space: nowrap; }
-  .topbar a.tel { font-size: 14px; text-decoration: none; opacity: .9; }
-
-  /* 히어로 */
-  .hero { background: linear-gradient(160deg, var(--brand) 0%, var(--brand-2) 100%); color: #fff; padding: 40px 0 56px; }
-  .badge { display: inline-block; font-size: 13px; padding: 4px 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; margin-bottom: 14px; }
-  .hero h1 { font-size: clamp(26px, 6vw, 36px); line-height: 1.3; margin: 0 0 12px; letter-spacing: -0.03em; }
-  .hero p { margin: 0; opacity: .9; }
-  .privacy { margin-top: 20px; background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
-
-  main { margin-top: -28px; padding-bottom: 120px; }
-
-  /* 카드 */
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; margin-bottom: 16px; }
-  .card h2 { display: flex; align-items: center; gap: 10px; font-size: 19px; margin: 0 0 4px; letter-spacing: -0.02em; }
-  .num { flex: none; width: 28px; height: 28px; border-radius: 8px; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; font-size: 15px; font-weight: 800; }
-  .card .desc { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
-
-  .field { margin-bottom: 16px; }
-  .field:last-child { margin-bottom: 0; }
-  .field label.title { display: block; font-weight: 700; font-size: 15px; }
-  .field .hint { display: block; color: var(--muted); font-size: 13px; font-weight: 400; margin-bottom: 6px; }
-  .money { position: relative; }
-  .money input, .plain input, .plain select {
-    width: 100%; height: 50px; border: 1px solid var(--line); border-radius: 10px; background: #fcfbf8;
-    font: inherit; font-size: 17px; padding: 0 44px 0 14px; text-align: right; color: var(--ink);
-  }
-  .plain input, .plain select { padding: 0 14px; text-align: left; }
-  .money input:focus, .plain input:focus, .plain select:focus { outline: 2px solid var(--brand-2); outline-offset: 1px; border-color: transparent; background: #fff; }
-  .money .unit { position: absolute; right: 14px; top: 13px; color: var(--muted); }
-  .money .kr { display: block; text-align: right; font-size: 13px; color: var(--brand-2); min-height: 18px; margin-top: 3px; }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
-
-  .check { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 10px; cursor: pointer; background: #fcfbf8; }
-  .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--brand); flex: none; }
-  .check b { display: block; font-size: 15px; }
-  .check small { display: block; color: var(--muted); font-size: 13px; }
-  .sub { margin: 4px 0 12px 30px; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
   .hidden { display: none !important; }
 
-  .stepper { display: flex; align-items: center; gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; width: max-content; background: #fcfbf8; }
-  .stepper button { width: 44px; height: 44px; border: 0; background: transparent; font-size: 20px; cursor: pointer; color: var(--brand); }
-  .stepper output { min-width: 48px; text-align: center; font-weight: 700; font-size: 17px; }
-  .inline { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; }
-  .inline .lbl b { display: block; font-size: 15px; }
-  .inline .lbl small { color: var(--muted); font-size: 13px; }
-  .ages { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-  .ages label { font-size: 13px; color: var(--muted); }
-  .ages input { width: 90px; height: 42px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; font: inherit; }
+  /* 상단 */
+  .topbar { background: #fff; border-bottom: 1px solid var(--line); }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; max-width: 960px; }
+  .brand { display: flex; flex-direction: column; line-height: 1.15; text-decoration: none; color: var(--brand); }
+  .brand b { font-size: 19px; font-weight: 800; letter-spacing: -0.04em; }
+  .brand small { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .tel { text-decoration: none; font-weight: 700; font-size: 14px; color: var(--brand); border: 1.5px solid var(--brand); border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
 
-  details.more { border-top: 1px dashed var(--line); margin-top: 12px; padding-top: 12px; }
-  details.more summary { cursor: pointer; color: var(--brand); font-weight: 700; font-size: 15px; }
-  details.more[open] summary { margin-bottom: 12px; }
+  /* 소개 */
+  .intro { padding: 36px 0 18px; }
+  .intro .tag { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: .04em; }
+  .intro h1 { font-size: clamp(26px, 5.4vw, 34px); line-height: 1.3; margin: 6px 0 10px; letter-spacing: -0.04em; font-weight: 800; }
+  .intro p { margin: 0; color: var(--muted); }
+  .intro p.caution { margin-top: 12px; font-size: 14px; font-weight: 700; color: #c0262d; background: #fdf0f0; border-left: 3px solid #c0262d; border-radius: 0 8px 8px 0; padding: 9px 12px; }
+  .route { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+  .route span { font-size: 13.5px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+  .route b { color: var(--brand); margin-right: 4px; }
 
-  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  @media (max-width: 520px) { .seg { grid-template-columns: 1fr; } }
-  .seg label { position: relative; cursor: pointer; }
-  .seg input { position: absolute; opacity: 0; }
-  .seg span { display: block; height: 100%; border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 16px; background: #fcfbf8; }
-  .seg b { display: block; font-size: 15.5px; }
-  .seg small { color: var(--muted); font-size: 13px; }
-  .seg input:checked + span { border-color: var(--brand); background: var(--brand-soft); box-shadow: inset 0 0 0 1px var(--brand); }
-  .seg input:focus-visible + span { outline: 2px solid var(--brand-2); outline-offset: 2px; }
-  .info { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #5b4520; margin-top: 12px; }
+  /* 진행 표시 */
+  .progress { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 12px 0 10px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .steps button { border: 0; background: none; padding: 0; font: inherit; text-align: left; cursor: pointer; color: var(--muted); }
+  .steps .bar { display: block; height: 5px; border-radius: 99px; background: var(--line); margin-bottom: 6px; transition: background .2s; }
+  .steps .lbl { font-size: 13px; font-weight: 600; }
+  .steps button.on .bar, .steps button.done .bar { background: var(--brand); }
+  .steps button.on .lbl { color: var(--brand); font-weight: 800; }
 
-  /* 하단 고정 버튼 */
-  .cta-bar { position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: linear-gradient(to top, var(--bg) 70%, transparent); z-index: 10; }
-  .cta-bar button { display: block; width: 100%; max-width: 728px; margin: 0 auto; height: 56px; border: 0; border-radius: 12px; background: var(--brand); color: #fff; font: inherit; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 18px rgba(31,77,69,.25); }
-  .cta-bar button:active { transform: translateY(1px); }
+  /* 단계 화면 */
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 22px; margin-bottom: 16px; }
+  .panel > h2 { font-size: 22px; letter-spacing: -0.03em; margin: 0 0 4px; }
+  .panel > .sub { color: var(--muted); font-size: 14.5px; margin: 0 0 22px; }
+  .q { margin-bottom: 22px; }
+  .q:last-child { margin-bottom: 0; }
+  .q > .qt { display: block; font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .q > .qh { display: block; color: var(--muted); font-size: 13.5px; margin-bottom: 8px; }
+  .group-title { font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: .04em; margin: 26px 0 12px; padding-top: 18px; border-top: 1px dashed var(--line); }
+
+  /* 예/아니오 */
+  .yn { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .yn button { height: 54px; border-radius: 12px; border: 1.5px solid var(--line); background: #fcfbf8; font: inherit; font-size: 16px; font-weight: 700; color: var(--ink); cursor: pointer; }
+  .yn button[aria-pressed="true"] { border-color: var(--brand); background: var(--brand); color: #fff; }
+
+  /* 숫자 +/- */
+  .counter { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .counter:last-of-type { border-bottom: 0; }
+  .counter .t b { display: block; font-size: 15.5px; }
+  .counter .t small { color: var(--muted); font-size: 13px; }
+  .pm { display: flex; align-items: center; gap: 4px; }
+  .pm button { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--brand); background: #fff; color: var(--brand); font-size: 20px; line-height: 1; cursor: pointer; }
+  .pm output { min-width: 40px; text-align: center; font-size: 20px; font-weight: 800; }
+  .ages { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 4px; }
+  .ages label { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+  .ages input { width: 110px; height: 42px; border: 1px solid var(--line); border-radius: 10px; padding: 0 10px; font: inherit; }
+
+  /* 금액 입력 */
+  .won { display: flex; align-items: center; border: 1.5px solid var(--line); border-radius: 12px; background: #fcfbf8; padding: 0 14px; height: 52px; }
+  .won:focus-within { border-color: var(--brand-2); background: #fff; }
+  .won input { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 18px; font-weight: 600; text-align: right; outline: none; color: var(--ink); }
+  .won span { margin-left: 6px; color: var(--muted); }
+  .kr { display: block; text-align: right; font-size: 13px; color: var(--brand-2); min-height: 18px; margin-top: 3px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 540px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .red-note { margin: -6px 0 6px; color: #c0262d; font-weight: 700; font-size: 14px; }
+  details.fold { margin-top: 14px; border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; background: #fcfbf8; }
+  details.fold summary { cursor: pointer; font-weight: 700; color: var(--brand); font-size: 15px; }
+  details.fold[open] summary { margin-bottom: 14px; }
+
+  .tick { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .tick:last-child { border-bottom: 0; }
+  .tick input { width: 22px; height: 22px; accent-color: var(--brand); margin: 1px 0 0; flex: none; }
+  .tick b { display: block; font-size: 15.5px; }
+  .tick small { color: var(--muted); font-size: 13px; }
+  .indent { margin: 0 0 8px 34px; }
+  .plain input, .plain select { width: 100%; height: 50px; border: 1.5px solid var(--line); border-radius: 12px; padding: 0 14px; font: inherit; background: #fcfbf8; }
+
+  /* 하단 이동 버튼 */
+  .nav { position: sticky; bottom: 0; z-index: 6; padding: 12px 0 calc(14px + env(safe-area-inset-bottom)); background: linear-gradient(to top, var(--bg) 75%, rgba(246,244,239,0)); }
+  .nav .wrap { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+  .nav button { height: 56px; border-radius: 14px; border: 0; font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; }
+  .nav .prev { background: #fff; color: var(--brand); border: 1.5px solid var(--line); }
+  .nav .next { background: var(--brand); color: #fff; box-shadow: 0 8px 20px rgba(31,77,69,.22); }
+  .nav .prev:disabled { opacity: .4; cursor: default; }
 
   /* 결과 */
-  #result { scroll-margin-top: 16px; }
-  .result-head { background: var(--brand); color: #fff; border-radius: var(--radius); padding: 26px 20px; text-align: center; margin-bottom: 16px; }
-  .result-head .label { opacity: .85; font-size: 15px; }
-  .result-head .big { font-size: clamp(32px, 9vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin: 6px 0; }
-  .result-head .kr { opacity: .85; }
-  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
-  .tile { background: rgba(255,255,255,.1); border-radius: 10px; padding: 10px 6px; }
-  .tile b { display: block; font-size: 17px; }
-  .tile span { font-size: 12px; opacity: .85; }
-  .deadline { background: var(--accent-soft); border: 1px solid #ecdcbd; color: #5b4520; border-radius: var(--radius); padding: 16px 18px; margin-bottom: 16px; }
-  .deadline b { font-size: 18px; color: #3d2d10; }
+  #result { scroll-margin-top: 10px; padding-bottom: 30px; }
+  .answer { background: #fff; border: 2px solid var(--brand); border-radius: 20px; padding: 26px 22px; margin-bottom: 16px; }
+  .answer .k { font-size: 14px; font-weight: 700; color: var(--brand); }
+  .answer .amt { font-size: clamp(34px, 9vw, 46px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.15; margin: 6px 0 2px; }
+  .answer .amt small { font-size: 22px; margin-left: 2px; }
+  .answer .say { color: var(--muted); font-size: 15px; }
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 6px; margin-top: 18px; text-align: center; }
+  .flow div { background: var(--bg); border-radius: 12px; padding: 10px 4px; }
+  .flow b { display: block; font-size: 16px; }
+  .flow span { font-size: 12px; color: var(--muted); }
+  .flow i { font-style: normal; color: var(--muted); font-weight: 800; }
 
-  table.calc { width: 100%; border-collapse: collapse; font-size: 15px; }
-  table.calc td { padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  table.calc td:last-child { text-align: right; white-space: nowrap; padding-left: 12px; font-variant-numeric: tabular-nums; }
-  table.calc tr.sum td { font-weight: 800; border-bottom: 2px solid var(--ink); }
-  table.calc tr.sec td { padding-top: 20px; font-weight: 800; color: var(--brand); border-bottom: 0; }
-  table.calc small { display: block; color: var(--muted); font-size: 12.5px; }
-  .notes { margin: 14px 0 0; padding-left: 18px; color: var(--muted); font-size: 13.5px; }
-  .notes li { margin-bottom: 6px; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; margin-bottom: 14px; }
+  .box h3 { margin: 0 0 12px; font-size: 18px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+  .box h3 .n { width: 24px; height: 24px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 13px; display: grid; place-items: center; }
+  .due { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .due b { font-size: 20px; }
+  .due .left { font-weight: 800; color: var(--accent); }
 
-  .risk { border-left: 4px solid var(--warn); background: var(--warn-soft); border-radius: 0 10px 10px 0; padding: 12px 14px; margin-bottom: 10px; }
-  .risk b { display: block; color: var(--warn); }
-  .risk p { margin: 4px 0 0; font-size: 14px; }
-  .ok { background: var(--brand-soft); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+  table.heirs { width: 100%; border-collapse: collapse; font-size: 15px; }
+  table.heirs th, table.heirs td { padding: 10px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+  table.heirs th { font-size: 13px; color: var(--muted); font-weight: 600; }
+  table.heirs td:last-child, table.heirs th:last-child { text-align: right; white-space: nowrap; }
+  .note { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
 
-  .consult { background: var(--ink); color: #fff; border-radius: var(--radius); padding: 24px 20px; text-align: center; }
-  .consult h3 { margin: 0 0 6px; font-size: 20px; }
-  .consult p { margin: 0 0 16px; opacity: .85; font-size: 15px; }
-  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .btns a, .btns button { display: grid; place-items: center; height: 52px; border-radius: 10px; text-decoration: none; font: inherit; font-weight: 700; cursor: pointer; border: 0; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-ghost { background: rgba(255,255,255,.12); color: #fff; }
-  .disclaimer { color: var(--muted); font-size: 12.5px; margin-top: 16px; }
+  .ledger { list-style: none; margin: 0; padding: 0; }
+  .ledger li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .ledger li small { display: block; color: var(--muted); font-size: 12.5px; }
+  .ledger li span:last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ledger li.tot { font-weight: 800; border-bottom: 2px solid var(--ink); }
+  .ledger li.head { font-weight: 800; color: var(--brand); border-bottom: 0; padding-top: 18px; }
+  details.fold.calc { background: #fff; }
 
-  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 24px 16px 100px; }
+  .talk li { margin-bottom: 8px; }
+  .talk { padding-left: 20px; margin: 0; font-size: 15px; }
+  .docs { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .docs label { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; cursor: pointer; }
+  .docs input { width: 18px; height: 18px; accent-color: var(--brand); margin-top: 3px; }
+
+  .cta { background: var(--brand); color: #fff; border-radius: 20px; padding: 26px 22px; text-align: center; }
+  .cta h3 { margin: 0 0 6px; font-size: 20px; }
+  .cta p { margin: 0 0 16px; opacity: .88; font-size: 15px; }
+  .cta .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cta a, .cta button { display: grid; place-items: center; height: 52px; border-radius: 12px; font: inherit; font-weight: 800; text-decoration: none; border: 0; cursor: pointer; }
+  .cta .a1 { background: #fff; color: var(--brand); }
+  .cta .a2 { background: rgba(255,255,255,.14); color: #fff; }
+  .cta .a3 { grid-column: 1 / -1; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); height: 46px; font-weight: 600; }
+  .fine { color: var(--muted); font-size: 12.5px; margin: 14px 2px 0; }
+
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 16px 30px; }
 
   @media print {
-    .topbar, .hero, form, .cta-bar, .consult .btns, footer { display: none !important; }
-    main { margin: 0; padding: 0; }
-    .result-head { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .topbar, .intro, .progress, form, .nav, .cta .row, footer { display: none !important; }
+    .answer, .box { break-inside: avoid; }
   }
 </style>
 </head>
 <body>
-
 <script src="../office.js"></script>
 
 <header class="topbar">
   <div class="wrap">
     <a class="brand" href="../index.html"><b data-office="brand">안심상속센터</b><small data-office="name"></small></a>
-    <a class="tel" data-office-tel href="#"><span data-office="phone"></span></a>
+    <a class="tel" data-tel href="#">전화 상담</a>
   </div>
 </header>
 
-<section class="hero">
+<div class="wrap">
+  <section class="intro">
+    <span class="tag">상속세 미리보기</span>
+    <h1>세 가지만 답하시면<br>예상 상속세를 정리해 드립니다</h1>
+    <p>가족 구성, 남기신 재산, 미리 주신 재산 순서로 여쭤봅니다. 모르는 칸은 비워 두셔도 됩니다.</p>
+    <p class="caution">본 계산기는 상속인이 입력·선택한 사항에 따라 세액이 달라집니다.<br>상속세 신고 여부와 신고 세액은 반드시 전문가와 상담한 후 결정하시기 바랍니다.</p>
+    <div class="route"><span><b>①</b>가족</span><span><b>②</b>재산</span><span><b>③</b>미리 준 재산·기타</span><span><b>→</b>결과와 준비물</span></div>
+  </section>
+</div>
+
+<div class="progress">
   <div class="wrap">
-    <span class="badge">2026년 현행 세법 기준 · 무료</span>
-    <h1>우리 가족 상속세,<br>얼마나 나올까요?</h1>
-    <p>재산과 가족 구성을 입력하면 예상 상속세와 신고기한을 바로 알려드립니다.</p>
-    <div class="privacy">이름·연락처를 묻지 않습니다. 입력하신 숫자는 이 기기 안에서만 계산되고 어디에도 전송·저장되지 않습니다.</div>
+    <div class="steps" id="steps">
+      <button type="button" data-go="0" class="on"><span class="bar"></span><span class="lbl">① 가족</span></button>
+      <button type="button" data-go="1"><span class="bar"></span><span class="lbl">② 재산</span></button>
+      <button type="button" data-go="2"><span class="bar"></span><span class="lbl">③ 미리 준 재산·기타</span></button>
+    </div>
   </div>
-</section>
+</div>
 
-<main>
-  <div class="wrap">
-  <form id="f" autocomplete="off" onsubmit="return false">
+<main class="wrap">
+<form id="f" autocomplete="off" onsubmit="return false">
 
-    <!-- 0. 거주지 -->
-    <section class="card">
-      <h2>돌아가신 분은 어디에 사셨나요?</h2>
-      <p class="desc">거주지에 따라 과세되는 재산과 받을 수 있는 공제가 크게 달라집니다.</p>
-      <div class="seg" role="radiogroup">
-        <label><input type="radio" name="residence" value="resident" checked><span><b>한국에 사셨습니다</b><small>거주자 · 국내외 모든 재산 과세</small></span></label>
-        <label><input type="radio" name="residence" value="nonresident"><span><b>일본·중국 등 해외에 사셨습니다</b><small>비거주자 · 한국 재산만 과세</small></span></label>
-      </div>
-      <div class="info hidden" id="nrInfo">비거주자는 <b>한국에 있는 재산만</b> 입력하세요. 공제는 기초공제 2억원만 적용되고, 일괄공제·배우자공제·금융재산공제·장례비 공제는 받을 수 없습니다. 빚은 한국 재산에 담보된 채무 등 국내 재산과 관련된 것만 빼줍니다. 신고기한은 9개월입니다.</div>
-    </section>
+  <!-- ① 가족 -->
+  <section class="panel" data-step="0">
+    <h2>누가 상속을 받나요?</h2>
+    <p class="sub">가족 구성에 따라 빼 주는 금액(공제)이 가장 크게 달라집니다.</p>
 
-    <!-- 1. 상속재산 -->
-    <section class="card">
-      <h2><span class="num">1</span>상속재산</h2>
-      <p class="desc">돌아가신 분 명의의 재산을 입력하세요. 모르는 항목은 비워두셔도 됩니다.</p>
-      <div class="field">
-        <label class="title" for="realEstate">부동산<span class="hint">아파트·주택·토지·건물 (시세를 모르면 공시가격)</span></label>
-        <div class="money"><input id="realEstate" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
+    <div class="q">
+      <span class="qt">돌아가신 분의 배우자가 계신가요?</span>
+      <div class="yn" id="spouseYN">
+        <button type="button" data-v="1" aria-pressed="true">계십니다</button>
+        <button type="button" data-v="0" aria-pressed="false">안 계십니다</button>
       </div>
-      <div class="field">
-        <label class="title" for="financial">금융재산<span class="hint">예금·적금·주식·펀드·사망보험금</span></label>
-        <div class="money"><input id="financial" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-      </div>
-      <div class="field">
-        <label class="title" for="otherAssets">기타재산<span class="hint">자동차·회원권·비상장주식·퇴직금 등</span></label>
-        <div class="money"><input id="otherAssets" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-      </div>
-      <details class="more" id="foreignMore">
-        <summary>일본·중국 등 해외에 재산이 있다면</summary>
-        <div class="field">
-          <label class="title" for="foreignAssets">그중 해외에 있는 재산<span class="hint">위 금액에 이미 포함된 해외 재산 (원화 환산)</span></label>
-          <div class="money"><input id="foreignAssets" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-        <div class="field">
-          <label class="title" for="foreignTaxPaid">외국에서 낸 상속세<span class="hint">예: 일본 상속세(相続税) · 외국납부세액공제로 한도 안에서 빼줍니다</span></label>
-          <div class="money"><input id="foreignTaxPaid" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-      </details>
-    </section>
+    </div>
 
-    <!-- 2. 채무·장례비 -->
-    <section class="card">
-      <h2><span class="num">2</span>빚과 장례비</h2>
-      <p class="desc">상속재산에서 빼주는 금액입니다. 증빙이 있어야 인정됩니다.</p>
-      <div class="field">
-        <label class="title" for="financialDebt">금융기관 대출<span class="hint">돌아가신 분 명의 대출 (금융재산공제 계산에도 쓰입니다)</span></label>
-        <div class="money"><input id="financialDebt" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
+    <div class="q">
+      <div class="counter">
+        <div class="t"><b>자녀</b><small>한 명당 5천만원씩 빼 드립니다</small></div>
+        <div class="pm" data-for="children"><button type="button" data-d="-1" aria-label="자녀 수 줄이기">−</button><output id="children">2</output><button type="button" data-d="1" aria-label="자녀 수 늘리기">+</button></div>
       </div>
-      <div class="field">
-        <label class="title" for="otherDebt">그 밖의 빚·세금<span class="hint">임대보증금, 개인 간 차입금, 미납 세금·병원비 등</span></label>
-        <div class="money"><input id="otherDebt" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-      </div>
-      <div class="row2">
-        <div class="field">
-          <label class="title" for="funeral">장례비<span class="hint">비워두면 500만원 · 최대 1,000만원</span></label>
-          <div class="money"><input id="funeral" inputmode="numeric" placeholder="5,000,000"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-        <div class="field">
-          <label class="title" for="enshrine">봉안·자연장지 비용<span class="hint">별도로 최대 500만원</span></label>
-          <div class="money"><input id="enshrine" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. 사전증여 -->
-    <section class="card">
-      <h2><span class="num">3</span>생전에 미리 준 재산</h2>
-      <p class="desc">돌아가시기 전에 증여한 재산은 상속재산에 다시 더해서 계산합니다.</p>
-      <div class="field">
-        <label class="title" for="giftToHeirs">배우자·자녀에게 준 재산<span class="hint">돌아가신 날 전 10년 이내</span></label>
-        <div class="money"><input id="giftToHeirs" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-      </div>
-      <div class="field">
-        <label class="title" for="giftToOthers">며느리·사위·손주 등에게 준 재산<span class="hint">돌아가신 날 전 5년 이내</span></label>
-        <div class="money"><input id="giftToOthers" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-      </div>
-      <details class="more" id="giftMore">
-        <summary>증여세를 신고했다면 더 입력하기</summary>
-        <div class="field">
-          <label class="title" for="giftExemptions">당시 받은 증여재산공제 합계<span class="hint">예: 성인 자녀 5,000만원, 배우자 6억원</span></label>
-          <div class="money"><input id="giftExemptions" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-        <div class="field">
-          <label class="title" for="giftTaxPaid">당시 증여세 산출세액 합계<span class="hint">신고세액공제를 빼기 전 금액 · 상속세에서 빼줍니다</span></label>
-          <div class="money"><input id="giftTaxPaid" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-      </details>
-      <div class="info">가족 간 계좌이체도 증여로 볼 수 있습니다. 상속세 신고 때 10년치 계좌 내역이 확인될 수 있어요.</div>
-    </section>
-
-    <!-- 4. 가족 구성 -->
-    <section class="card">
-      <h2><span class="num">4</span>가족 구성</h2>
-      <p class="desc">공제 금액을 정하는 가장 중요한 항목입니다.</p>
-
-      <label class="check"><input type="checkbox" id="hasSpouse" checked>
-        <span><b>배우자가 계십니다</b><small>배우자상속공제 최소 5억원 ~ 최대 30억원</small></span></label>
-      <div class="sub" id="spouseBox">
-        <div class="field">
-          <label class="title" for="spouseActual">배우자가 실제 받을 금액 <span style="font-weight:400;color:var(--muted)">(선택)</span><span class="hint">비워두면 법정상속분(배우자 1.5 : 자녀 1)만큼 받는다고 계산합니다</span></label>
-          <div class="money"><input id="spouseActual" inputmode="numeric" placeholder="법정상속분 자동"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-      </div>
-
-      <div class="inline">
-        <div class="lbl"><b>자녀 수</b><small>1인당 5,000만원 공제</small></div>
-        <div class="stepper" data-for="children"><button type="button" data-d="-1" aria-label="자녀 수 줄이기">−</button><output id="children">2</output><button type="button" data-d="1" aria-label="자녀 수 늘리기">+</button></div>
-      </div>
-      <div class="inline">
-        <div class="lbl"><b>그중 미성년 자녀</b><small>19세까지 1년당 1,000만원 추가</small></div>
-        <div class="stepper" data-for="minors"><button type="button" data-d="-1" aria-label="미성년 자녀 줄이기">−</button><output id="minors">0</output><button type="button" data-d="1" aria-label="미성년 자녀 늘리기">+</button></div>
+      <div class="counter">
+        <div class="t"><b>그중 만 19세 미만 자녀</b><small>성인이 될 때까지 1년에 1천만원씩 더</small></div>
+        <div class="pm" data-for="minors"><button type="button" data-d="-1" aria-label="미성년 자녀 줄이기">−</button><output id="minors">0</output><button type="button" data-d="1" aria-label="미성년 자녀 늘리기">+</button></div>
       </div>
       <div class="ages hidden" id="ages"></div>
+    </div>
 
-      <details class="more">
-        <summary>부모님·연로자·장애인 공제</summary>
-        <div class="inline">
-          <div class="lbl"><b>돌아가신 분의 부모님 생존 인원</b><small>자녀가 없을 때 배우자와 함께 상속인이 됩니다</small></div>
-          <div class="stepper" data-for="ascendants"><button type="button" data-d="-1" aria-label="줄이기">−</button><output id="ascendants">0</output><button type="button" data-d="1" aria-label="늘리기">+</button></div>
-        </div>
-        <div class="inline">
-          <div class="lbl"><b>65세 이상 상속인·동거가족</b><small>배우자 제외 · 1인당 5,000만원</small></div>
-          <div class="stepper" data-for="elderly"><button type="button" data-d="-1" aria-label="줄이기">−</button><output id="elderly">0</output><button type="button" data-d="1" aria-label="늘리기">+</button></div>
-        </div>
-        <div class="field plain" style="margin-top:8px">
-          <label class="title" for="disabledYears">장애인 공제: 기대여명 연수 합계<span class="hint">장애인 상속인·동거가족의 기대여명 1년당 1,000만원</span></label>
-          <input id="disabledYears" type="number" min="0" inputmode="numeric" placeholder="0">
-        </div>
-      </details>
-    </section>
-
-    <!-- 5. 특수 상황 -->
-    <section class="card">
-      <h2><span class="num">5</span>해당되면 체크하세요</h2>
-      <p class="desc">해당 없으면 넘어가셔도 됩니다.</p>
-
-      <label class="check"><input type="checkbox" id="cohabitHouse">
-        <span><b>자녀가 부모님과 10년 이상 한집에 살았습니다</b><small>동거주택 상속공제 · 주택가액 100%, 최대 6억원 (1세대 1주택 등 요건)</small></span></label>
-      <div class="sub hidden" id="houseBox">
-        <div class="field">
-          <label class="title" for="houseValue">그 주택의 가액<span class="hint">주택에 담보된 대출을 뺀 금액</span></label>
-          <div class="money"><input id="houseValue" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
+    <details class="fold hidden" id="parentsFold" open>
+      <summary>자녀가 없고 부모님이 살아 계시면</summary>
+      <div class="counter">
+        <div class="t"><b>돌아가신 분의 부모님</b><small>자녀가 없을 때 배우자와 함께 상속받습니다</small></div>
+        <div class="pm" data-for="ascendants"><button type="button" data-d="-1" aria-label="줄이기">−</button><output id="ascendants">0</output><button type="button" data-d="1" aria-label="늘리기">+</button></div>
       </div>
+    </details>
+  </section>
 
-      <label class="check"><input type="checkbox" id="skipGen">
-        <span><b>손주가 직접 상속받는 재산이 있습니다</b><small>세대를 건너뛴 상속 · 해당 부분 세액 30% 할증</small></span></label>
-      <div class="sub hidden" id="skipBox">
-        <div class="field">
-          <label class="title" for="skipGenAmount">손주가 받는 재산 가액</label>
-          <div class="money"><input id="skipGenAmount" inputmode="numeric" placeholder="0"><span class="unit">원</span><span class="kr"></span></div>
-        </div>
-        <label class="check"><input type="checkbox" id="skipGenMinorOver20"><span><b>미성년 손주가 20억원 넘게 받습니다</b><small>할증률 40%</small></span></label>
+  <!-- ② 재산 -->
+  <section class="panel hidden" data-step="1">
+    <h2>무엇을 남기셨나요?</h2>
+    <p class="sub">돌아가신 분 이름으로 된 것만 적어 주세요. 정확하지 않아도 대략의 금액이면 충분합니다.</p>
+
+    <div class="q">
+      <label class="qt" for="realEstate">집·땅·건물</label>
+      <span class="qh">시세를 모르면 공시가격으로 적어 주세요</span>
+      <div class="won"><input id="realEstate" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+    </div>
+    <div class="q">
+      <label class="qt" for="financial">예금·주식·보험금</label>
+      <span class="qh">돌아가신 분이 보험료를 낸 사망보험금도 포함</span>
+      <div class="won"><input id="financial" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+    </div>
+    <div class="q">
+      <label class="qt" for="otherAssets">그 밖의 재산</label>
+      <span class="qh">자동차, 회원권, 회사 지분, 퇴직금 등</span>
+      <div class="won"><input id="otherAssets" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+    </div>
+
+    <div class="group-title">갚아야 할 돈</div>
+    <div class="grid2">
+      <div class="q">
+        <label class="qt" for="financialDebt">은행 대출</label>
+        <div class="won"><input id="financialDebt" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
       </div>
-
-      <label class="check"><input type="checkbox" id="lateFiling">
-        <span><b>신고기한을 넘겼거나 넘길 예정입니다</b><small>신고세액공제 3% 미적용 · 일괄공제 5억만 적용 · 가산세 별도</small></span></label>
-    </section>
-
-    <!-- 6. 신고기한 -->
-    <section class="card">
-      <h2><span class="num">6</span>신고기한 확인</h2>
-      <p class="desc">돌아가신 날을 넣으면 상속세 신고·납부 마감일을 알려드립니다.</p>
-      <div class="row2">
-        <div class="field plain">
-          <label class="title" for="deathDate">돌아가신 날</label>
-          <input id="deathDate" type="date">
-        </div>
-        <div class="field plain">
-          <label class="title" for="abroad">상속인 주소</label>
-          <select id="abroad">
-            <option value="0">모두 국내</option>
-            <option value="1">돌아가신 분 또는 상속인 전원이 해외</option>
-          </select>
-        </div>
+      <div class="q">
+        <label class="qt" for="otherDebt">그 밖의 빚</label>
+        <div class="won"><input id="otherDebt" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
       </div>
-    </section>
+    </div>
+    <div class="grid2">
+      <div class="q">
+        <label class="qt" for="funeral">장례식 비용</label>
+        <span class="qh">영수증이 없어도 500만원은 빼 드려요</span>
+        <div class="won"><input id="funeral" inputmode="numeric" placeholder="5,000,000"><span>원</span></div><span class="kr"></span>
+      </div>
+      <div class="q">
+        <label class="qt" for="enshrine">납골당·수목장 비용</label>
+        <span class="qh">따로 500만원까지</span>
+        <div class="won"><input id="enshrine" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+      </div>
+    </div>
+  </section>
 
-    <!-- 7. 점검 -->
-    <section class="card">
-      <h2><span class="num">7</span>신고 전에 점검할 것</h2>
-      <p class="desc">국세청이 상속세 신고서를 볼 때 먼저 확인하는 내용입니다.</p>
-      <div id="risks"></div>
-    </section>
-  </form>
+  <!-- ③ 미리 준 재산·기타 -->
+  <section class="panel hidden" data-step="2">
+    <h2>미리 주신 재산이 있나요?</h2>
+    <p class="sub">생전에 넘겨준 재산 중 일부는 상속재산에 다시 더해서 계산합니다.</p>
 
-  <section id="result" class="hidden" aria-live="polite"></section>
-  </div>
+    <div class="q">
+      <label class="qt" for="giftToHeirs">배우자·자녀에게 준 재산 (최근 10년)</label>
+      <div class="won"><input id="giftToHeirs" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+    </div>
+    <div class="q">
+      <label class="qt" for="giftToOthers">사위·며느리·손주 등에게 준 재산 (최근 5년)</label>
+      <div class="won"><input id="giftToOthers" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+    </div>
+    <details class="fold">
+      <summary>그때 증여세를 신고하셨다면</summary>
+      <div class="q">
+        <label class="qt" for="giftExemptions">그때 빼 준 금액(증여재산공제) 합계</label>
+        <div class="won"><input id="giftExemptions" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+      </div>
+      <div class="q">
+        <label class="qt" for="giftTaxPaid">그때 계산된 증여세 합계</label>
+        <span class="qh">이미 낸 증여세는 상속세에서 빼 드립니다</span>
+        <div class="won"><input id="giftTaxPaid" inputmode="numeric" placeholder="0"><span>원</span></div><span class="kr"></span>
+      </div>
+    </details>
+
+    <div class="group-title">이런 사정이 있으면 골라 주세요</div>
+    <p class="red-note">세금 변동이 큰 항목입니다. 모르는 칸은 비워 두셔도 됩니다.</p>
+    <label class="tick"><input type="checkbox" id="cohabitHouse"><span><b>자녀가 부모님을 10년 넘게 모시고 한집에 살았어요</b><small>그 집값을 6억원까지 더 빼 드릴 수 있어요 (1세대 1주택 등 조건)</small></span></label>
+    <div class="indent hidden" id="houseBox">
+      <div class="won"><input id="houseValue" inputmode="numeric" placeholder="그 집의 가격 (대출 뺀 금액)"><span>원</span></div><span class="kr"></span>
+    </div>
+    <label class="tick"><input type="checkbox" id="skipGen"><span><b>손주가 직접 받는 재산이 있어요</b><small>그만큼은 세금이 30% 늘어납니다</small></span></label>
+    <div class="indent hidden" id="skipBox">
+      <div class="won"><input id="skipGenAmount" inputmode="numeric" placeholder="손주가 받는 금액"><span>원</span></div><span class="kr"></span>
+      <label class="tick" style="border:0;padding:8px 0 0"><input type="checkbox" id="skipGenMinorOver20"><span><b>미성년 손주가 20억원 넘게 받아요</b><small>이 경우 40% 늘어납니다</small></span></label>
+    </div>
+    <label class="tick"><input type="checkbox" id="lateFiling"><span><b>신고 기한을 이미 넘겼어요</b><small>3% 할인과 일부 공제를 받지 못하고 가산세가 붙을 수 있어요</small></span></label>
+
+    <div class="group-title">언제 돌아가셨나요? (선택)</div>
+    <div class="plain" style="max-width:320px">
+      <div class="q"><label class="qt" for="deathDate">돌아가신 날</label><span class="qh">넣으시면 신고·납부 마감일을 알려 드려요</span><input id="deathDate" type="date"></div>
+    </div>
+  </section>
+</form>
+
+<section id="result" class="hidden" aria-live="polite"></section>
 </main>
 
-<div class="cta-bar"><button type="button" id="go">예상 상속세 계산하기</button></div>
+<div class="nav" id="nav">
+  <div class="wrap">
+    <button type="button" class="prev" id="prev" disabled>이전</button>
+    <button type="button" class="next" id="next">다음</button>
+  </div>
+</div>
 
 <footer>
   <div><b data-office="brand"></b> · <span data-office="name"></span></div>
   <div><span data-office="brand"></span>는 세무법인대교의 브랜드입니다. · <a href="../privacy/">개인정보처리방침</a></div>
-  <div>본 계산기는 참고용이며, 실제 세액은 재산 평가와 사실관계에 따라 달라질 수 있습니다.</div>
+  <div>입력하신 숫자는 이 화면 안에서만 계산되고 어디에도 보내지거나 남지 않습니다.</div>
 </footer>
 
 <script src="calc.js"></script>
@@ -382,55 +355,63 @@
   var O = window.OFFICE;
   var $ = function (id) { return document.getElementById(id); };
   var fmt = function (v) { return Math.round(v).toLocaleString('ko-KR'); };
+  var digits = function (s) { return String(s).replace(/[^0-9]/g, ''); };
 
-  // 사무소 정보 반영
-  document.querySelectorAll('[data-office]').forEach(function (el) { el.textContent = O[el.dataset.office]; });
-  document.querySelectorAll('[data-office-tel]').forEach(function (el) { el.href = 'tel:' + O.phone.replace(/[^0-9]/g, ''); });
+  document.querySelectorAll('[data-office]').forEach(function (el) { el.textContent = O[el.dataset.office] || ''; });
+  document.querySelectorAll('[data-tel]').forEach(function (el) { el.href = 'tel:' + digits(O.phone); });
 
-  // 금액 → "15억 3,000만 원"
+  // 금액 → "15억 3,000만"
   function kr(v) {
-    v = Math.floor(v || 0);
-    if (!v) return '';
-    var eok = Math.floor(v / 1e8), man = Math.floor((v % 1e8) / 1e4), won = v % 1e4;
-    var s = [];
+    v = Math.floor(v || 0); if (!v) return '';
+    var eok = Math.floor(v / 1e8), man = Math.floor((v % 1e8) / 1e4), won = v % 1e4, s = [];
     if (eok) s.push(eok.toLocaleString('ko-KR') + '억');
     if (man) s.push(man.toLocaleString('ko-KR') + '만');
     if (won && !eok) s.push(won.toLocaleString('ko-KR'));
-    return s.join(' ') + ' 원';
+    return s.join(' ') + '원';
   }
-  function short(v) {
-    if (v >= 1e8) return (Math.round(v / 1e7) / 10).toLocaleString('ko-KR') + '억';
-    if (v >= 1e4) return Math.round(v / 1e4).toLocaleString('ko-KR') + '만';
-    return fmt(v);
+  function man(v) { // 큰 금액을 "1억 2,345만원"으로
+    v = Math.round(v / 1e4) * 1e4;
+    return v ? kr(v) : '0원';
   }
-  function money(id) {
-    var el = $(id); if (!el) return 0;
-    return Number(String(el.value).replace(/[^0-9]/g, '')) || 0;
-  }
+  function money(id) { var el = $(id); return el ? Number(digits(el.value)) || 0 : 0; }
 
-  // 금액 입력 칸: 콤마와 한글 단위 표시
-  document.querySelectorAll('.money input').forEach(function (el) {
+  document.querySelectorAll('.won input').forEach(function (el) {
     el.addEventListener('input', function () {
-      var raw = el.value.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
+      var raw = digits(el.value).replace(/^0+(?=\d)/, '');
       el.value = raw ? Number(raw).toLocaleString('ko-KR') : '';
-      el.parentNode.querySelector('.kr').textContent = kr(Number(raw));
+      var k = el.closest('.won').nextElementSibling;
+      if (k && k.classList.contains('kr')) k.textContent = kr(Number(raw));
     });
   });
 
-  // + / − 버튼
+  // 배우자 예/아니오
+  var hasSpouse = true;
+  $('spouseYN').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    hasSpouse = b.dataset.v === '1';
+    this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+  });
+
+  // +/- 버튼
   var counts = { children: 2, minors: 0, ascendants: 0, elderly: 0 };
-  document.querySelectorAll('.stepper').forEach(function (st) {
-    var key = st.dataset.for;
-    st.addEventListener('click', function (e) {
+  document.querySelectorAll('.pm').forEach(function (pm) {
+    var key = pm.dataset.for;
+    pm.addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return;
       var v = Math.max(0, Math.min(20, counts[key] + Number(b.dataset.d)));
       if (key === 'minors') v = Math.min(v, counts.children);
       counts[key] = v; $(key).textContent = v;
       if (key === 'children' && counts.minors > v) { counts.minors = v; $('minors').textContent = v; }
       renderAges();
+      updateParents();
     });
   });
-
+  // 부모님 입력은 자녀가 0명일 때만 (자녀가 있으면 부모님은 상속인이 아님)
+  function updateParents() {
+    var none = counts.children === 0;
+    $('parentsFold').classList.toggle('hidden', !none);
+    if (!none && counts.ascendants) { counts.ascendants = 0; $('ascendants').textContent = 0; }
+  }
   function renderAges() {
     var box = $('ages');
     var prev = Array.prototype.map.call(box.querySelectorAll('input'), function (i) { return i.value; });
@@ -438,65 +419,40 @@
     box.classList.toggle('hidden', counts.minors === 0);
     for (var k = 0; k < counts.minors; k++) {
       var l = document.createElement('label');
-      l.innerHTML = '미성년 자녀 ' + (k + 1) + ' 만 나이<br>';
+      l.textContent = (k + 1) + '번째 자녀 나이';
       var inp = document.createElement('input');
-      inp.type = 'number'; inp.min = 0; inp.max = 18; inp.inputMode = 'numeric'; inp.placeholder = '예: 15';
+      inp.type = 'number'; inp.min = 0; inp.max = 18; inp.inputMode = 'numeric'; inp.placeholder = '만 나이';
       inp.value = prev[k] || '';
       l.appendChild(inp); box.appendChild(l);
     }
   }
-
-  function toggle(chk, box) {
-    var f = function () { $(box).classList.toggle('hidden', !$(chk).checked); };
-    $(chk).addEventListener('change', f); f();
-  }
-  toggle('hasSpouse', 'spouseBox');
+  function toggle(chk, box) { var f = function () { $(box).classList.toggle('hidden', !$(chk).checked); }; $(chk).addEventListener('change', f); f(); }
   toggle('cohabitHouse', 'houseBox');
   toggle('skipGen', 'skipBox');
 
-  // 거주자 / 비거주자 전환
-  function isNonResident() { return document.querySelector('input[name=residence]:checked').value === 'nonresident'; }
-  var nrHidden = [
-    $('funeral').closest('.row2'),
-    $('hasSpouse').closest('.card'),
-    $('cohabitHouse').closest('.check'),
-    $('foreignMore')
-  ];
-  function applyResidence() {
-    var nr = isNonResident();
-    $('nrInfo').classList.toggle('hidden', !nr);
-    nrHidden.forEach(function (el) { el.classList.toggle('hidden', nr); });
-    if (nr) { $('cohabitHouse').checked = false; $('houseBox').classList.add('hidden'); $('abroad').value = '1'; }
-    // 보이는 단계 번호 다시 매기기
-    var k = 0;
-    document.querySelectorAll('form .card .num').forEach(function (n) {
-      if (!n.closest('.card').classList.contains('hidden')) n.textContent = ++k;
-    });
+  // 단계 이동
+  var step = 0, LAST = 2;
+  var panels = document.querySelectorAll('.panel');
+  var stepBtns = document.querySelectorAll('#steps button');
+  function show(n) {
+    step = Math.max(0, Math.min(LAST, n));
+    panels.forEach(function (p) { p.classList.toggle('hidden', Number(p.dataset.step) !== step); });
+    stepBtns.forEach(function (b, i) { b.classList.toggle('on', i === step); b.classList.toggle('done', i < step); });
+    $('prev').disabled = step === 0;
+    $('next').textContent = step === LAST ? '예상 상속세 보기' : '다음';
+    $('f').classList.remove('hidden'); $('result').classList.add('hidden');
+    document.querySelector('.progress').classList.remove('hidden');
+    window.scrollTo({ top: document.querySelector('.progress').offsetTop - 4, behavior: 'smooth' });
   }
-  document.querySelectorAll('input[name=residence]').forEach(function (r) { r.addEventListener('change', applyResidence); });
-  if (/[?&]mode=nonresident/.test(location.search)) document.querySelector('input[value=nonresident]').checked = true;
-  applyResidence();
-
-  // 신고 전 점검 항목
-  var RISKS = [
-    { id: 'r1', q: '돌아가시기 전 1년 안에 2억원 이상, 또는 2년 안에 5억원 이상 예금을 찾거나 부동산을 팔거나 대출을 받았습니다',
-      a: '쓴 곳을 설명하지 못한 금액은 상속받은 재산으로 추정해 과세할 수 있습니다(추정상속재산). 인출 내역과 사용처 증빙을 신고 전에 정리해 두셔야 합니다.' },
-    { id: 'r2', q: '가족끼리 계좌이체를 자주 했습니다 (생활비 외 목돈)',
-      a: '자녀·배우자에게 보낸 목돈은 사전증여로 보아 상속재산에 더해질 수 있습니다. 10년치 이체 내역을 미리 확인해 보는 것이 안전합니다.' },
-    { id: 'r3', q: '가족이나 다른 사람 이름으로 된 예금·주식·부동산이 있습니다',
-      a: '실제 주인이 돌아가신 분이라면 차명재산으로 상속재산에 포함됩니다. 신고에서 빠지면 가산세 부담이 커집니다.' },
-    { id: 'r4', q: '상가·꼬마빌딩·토지처럼 시세를 알기 어려운 부동산이 있습니다',
-      a: '공시가격으로 신고하더라도 국세청이 감정평가를 받아 더 높은 금액으로 다시 계산할 수 있습니다. 미리 감정평가를 받는 편이 나은지 따져봐야 합니다.' },
-    { id: 'r5', q: '돌아가신 분이 사업을 하셨습니다 (개인사업자 또는 법인 대표)',
-      a: '사업용 계좌, 법인 가지급금·가수금, 비상장주식 평가가 함께 검토됩니다. 가업상속공제 대상인지도 확인해 볼 만합니다.' },
-    { id: 'r6', q: '사망보험금·퇴직금·신탁재산을 받게 됩니다',
-      a: '돌아가신 분이 보험료를 냈다면 보험금도 상속재산입니다(간주상속재산). 신고에서 자주 빠지는 항목이니 위 재산 금액에 포함하셨는지 확인하세요.' },
-    { id: 'r7', q: '해외에 예금이나 부동산이 있습니다',
-      a: '거주자의 해외재산도 상속재산에 포함됩니다. 외국에서 낸 상속세는 외국납부세액공제로 뺄 수 있는지 검토가 필요합니다.' }
-  ];
-  $('risks').innerHTML = RISKS.map(function (r) {
-    return '<label class="check"><input type="checkbox" id="' + r.id + '"><span><b>' + r.q + '</b></span></label>';
-  }).join('');
+  stepBtns.forEach(function (b) { b.addEventListener('click', function () { show(Number(b.dataset.go)); }); });
+  $('prev').addEventListener('click', function () {
+    if (!$('result').classList.contains('hidden')) { show(LAST); return; }
+    show(step - 1);
+  });
+  $('next').addEventListener('click', function () {
+    if (!$('result').classList.contains('hidden')) { show(0); return; }
+    if (step < LAST) show(step + 1); else render();
+  });
 
   function collect() {
     return {
@@ -505,111 +461,139 @@
       funeral: money('funeral'), enshrine: money('enshrine'),
       giftToHeirs: money('giftToHeirs'), giftToOthers: money('giftToOthers'),
       giftExemptions: money('giftExemptions'), giftTaxPaid: money('giftTaxPaid'),
-      hasSpouse: $('hasSpouse').checked,
-      spouseActual: $('spouseActual').value.trim() === '' ? '' : money('spouseActual'),
+      hasSpouse: hasSpouse, spouseActual: '',
       children: counts.children, ascendants: counts.ascendants, elderly: counts.elderly,
       minorAges: Array.prototype.map.call($('ages').querySelectorAll('input'), function (i) { return i.value === '' ? 18 : Number(i.value); }),
-      disabledYears: Number($('disabledYears').value) || 0,
       cohabitHouse: $('cohabitHouse').checked, houseValue: money('houseValue'),
       skipGenAmount: $('skipGen').checked ? money('skipGenAmount') : 0,
       skipGenMinorOver20: $('skipGenMinorOver20').checked,
-      lateFiling: $('lateFiling').checked,
-      nonResident: isNonResident(),
-      foreignAssets: money('foreignAssets'), foreignTaxPaid: money('foreignTaxPaid')
+      lateFiling: $('lateFiling').checked
     };
   }
 
-  function row(label, value, sub, cls) {
-    return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + label + (sub ? '<small>' + sub + '</small>' : '') + '</td><td>' + value + '</td></tr>';
+  // 법정상속분대로 나눌 때 가족별 부담
+  function heirShares() {
+    var list = [];
+    var others = counts.children > 0 ? counts.children : counts.ascendants;
+    var who = counts.children > 0 ? '자녀' : '부모님';
+    if (hasSpouse) list.push({ name: '배우자', w: 1.5 });
+    for (var i = 0; i < others; i++) list.push({ name: who + ' ' + (others > 1 ? (i + 1) : ''), w: 1 });
+    var sum = list.reduce(function (s, x) { return s + x.w; }, 0);
+    return list.map(function (x) { return { name: x.name.trim(), ratio: x.w / sum }; });
   }
 
-  $('go').addEventListener('click', function () {
+  function li(label, value, sub, cls) {
+    return '<li' + (cls ? ' class="' + cls + '"' : '') + '><span>' + label + (sub ? '<small>' + sub + '</small>' : '') + '</span><span>' + value + '</span></li>';
+  }
+
+  function render() {
     var input = collect();
     var r = InheritCalc.calculate(input);
     var box = $('result');
+    var h = '';
 
     if (r.gross === 0 && r.gifts === 0) {
-      box.classList.remove('hidden');
-      box.innerHTML = '<div class="card"><b>상속재산을 먼저 입력해 주세요.</b><p class="desc" style="margin:6px 0 0">1번 칸에 부동산이나 금융재산 금액을 넣으면 계산됩니다.</p></div>';
-      box.scrollIntoView({ behavior: 'smooth' });
+      alertBox('② 재산 단계에서 금액을 하나 이상 적어 주세요.');
       return;
     }
 
-    var h = '';
-    // 결과 헤드
-    h += '<div class="result-head"><div class="label">예상 상속세 (납부할 세액)</div>' +
-      '<div class="big">' + fmt(r.finalTax) + '원</div>' +
-      '<div class="kr">' + (r.finalTax ? kr(r.finalTax) : '상속세가 나오지 않을 것으로 예상됩니다') + '</div>' +
-      '<div class="tiles">' +
-      '<div class="tile"><b>' + short(r.taxableValue) + '</b><span>과세가액</span></div>' +
-      '<div class="tile"><b>' + short(r.appliedDed) + '</b><span>공제 합계</span></div>' +
-      '<div class="tile"><b>' + (r.rate ? Math.round(r.rate * 100) + '%' : '-') + '</b><span>적용 세율</span></div>' +
-      '</div></div>';
+    // 한 줄 답
+    var say = r.finalTax
+      ? '공제 ' + man(r.appliedDed) + '을 빼고 남은 ' + man(r.taxBase) + '에 세율 ' + Math.round(r.rate * 100) + '%가 적용됩니다.'
+      : '빼 주는 금액(공제)이 재산보다 커서 상속세가 나오지 않을 가능성이 큽니다. 다만 재산 평가 방법에 따라 과세 여부가 달라질 수 있고, 나중에 집·땅을 팔 때 양도세까지 생각하면 세무 상담을 받아 보시는 것이 좋습니다.';
+    h += '<div class="answer"><div class="k">예상 상속세</div>' +
+      '<div class="amt">' + (r.finalTax ? man(r.finalTax).replace('원', '') + '<small>원</small>' : '0<small>원</small>') + '</div>' +
+      '<div class="say">' + say + '</div>' +
+      '<div class="flow"><div><b>' + man(r.taxableValue) + '</b><span>계산 대상</span></div><i>−</i>' +
+      '<div><b>' + man(r.appliedDed) + '</b><span>빼 주는 금액</span></div><i>=</i>' +
+      '<div><b>' + man(r.taxBase) + '</b><span>세금 매길 금액</span></div></div></div>';
 
-    // 신고기한
-    var dl = InheritCalc.filingDeadline($('deathDate').value, $('abroad').value === '1');
+    var n = 1;
+    // 기한
+    var dl = InheritCalc.filingDeadline($('deathDate').value, false);
     if (dl) {
       var today = new Date(); today.setHours(0, 0, 0, 0);
       var days = Math.round((dl - today) / 86400000);
-      var left = days >= 0 ? '오늘부터 <b>' + days + '일</b> 남았습니다.' : '<b>신고기한이 ' + (-days) + '일 지났습니다.</b> 기한 후 신고로 가산세를 줄일 수 있으니 서둘러 상담받으세요.';
-      h += '<div class="deadline">신고·납부 기한: <b>' + dl.getFullYear() + '년 ' + (dl.getMonth() + 1) + '월 ' + dl.getDate() + '일</b><br>' + left +
-        '<br><small>기한 내 신고하면 세액의 3%를 공제받고, 가산세를 피할 수 있습니다.</small></div>';
+      h += '<div class="box"><h3><span class="n">' + (n++) + '</span>신고·납부 마감일</h3><div class="due"><b>' +
+        dl.getFullYear() + '. ' + (dl.getMonth() + 1) + '. ' + dl.getDate() + '.</b><span class="left">' +
+        (days >= 0 ? days + '일 남음' : (-days) + '일 지남') + '</span></div>' +
+        '<p class="note">마감일 안에 신고하면 세금의 3%를 덜 냅니다. 금액이 크면 나눠 내는 방법(연부연납)도 이때 함께 신청해야 합니다.</p></div>';
     }
 
-    // 계산 과정
-    h += '<div class="card"><h2>계산 과정</h2><table class="calc">';
-    h += row('1. 상속세 과세가액', '', '', 'sec');
-    h += row('상속재산 합계', fmt(r.gross) + '원', '부동산 + 금융재산 + 기타재산');
-    if (r.debts) h += row('빚·세금', '− ' + fmt(r.debts) + '원');
-    if (!r.nonResident) h += row('장례비', '− ' + fmt(r.funeralTotal) + '원', '증빙 없어도 500만원 인정');
-    if (r.gifts) h += row('사전증여재산 더하기', '+ ' + fmt(r.gifts) + '원', '상속인 10년 · 그 외 5년 이내');
-    h += row('과세가액', fmt(r.taxableValue) + '원', '', 'sum');
-
-    h += row('2. 상속공제', '', '', 'sec');
-    h += row(r.nonResident ? '기초공제' : (r.lumpIsBasic ? '기초·인적공제' : '일괄공제'), '− ' + fmt(r.lump) + '원', r.lumpLabel);
-    if (r.spouseDed) h += row('배우자상속공제', '− ' + fmt(r.spouseDed) + '원', r.spouseLabel);
-    if (r.finDed) h += row('금융재산 상속공제', '− ' + fmt(r.finDed) + '원', '순금융재산 ' + fmt(r.netFin) + '원 기준 (2천만원 이하 전액 · 1억 이하 2천만원 · 초과 20%, 최대 2억)');
-    if (r.houseDed) h += row('동거주택 상속공제', '− ' + fmt(r.houseDed) + '원', '최대 6억원');
-    if (r.limited) h += row('공제 한도 적용', fmt(r.appliedDed) + '원', '공제 합계 ' + fmt(r.totalDed) + '원이 공제 한도(과세가액 − 사전증여 과세표준)를 넘어 한도까지만 공제');
-    h += row('공제 합계', '− ' + fmt(r.appliedDed) + '원', '', 'sum');
-
-    h += row('3. 세액', '', '', 'sec');
-    h += row('과세표준', fmt(r.taxBase) + '원');
-    if (r.taxBase) h += row('산출세액', fmt(r.computed) + '원', '세율 ' + Math.round(r.rate * 100) + '% · 누진공제 ' + fmt(r.progressiveDeduct) + '원');
-    if (r.surcharge) h += row('세대생략 할증', '+ ' + fmt(r.surcharge) + '원');
-    if (r.giftCredit) h += row('증여세액공제', '− ' + fmt(r.giftCredit) + '원', r.giftCredit < r.giftCreditIn ? '공제 한도로 일부만 반영' : '생전 증여 때 낸 증여세');
-    if (r.foreignCredit) h += row('외국납부세액공제', '− ' + fmt(r.foreignCredit) + '원', r.foreignCredit < r.foreignTaxIn ? '해외재산 비율 한도로 일부만 반영' : '외국에서 낸 상속세');
-    if (r.filingCredit) h += row('신고세액공제 3%', '− ' + fmt(r.filingCredit) + '원', '기한 내 신고 시');
-    h += row('예상 납부세액', fmt(r.finalTax) + '원', '', 'sum');
-    h += '</table>';
-    if (r.notes.length) h += '<ul class="notes">' + r.notes.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>';
-    h += '</div>';
-
-    // 점검 결과
-    var hits = RISKS.filter(function (rk) { return $(rk.id).checked; });
-    h += '<div class="card"><h2>신고 전 점검 결과</h2>';
-    if (hits.length) {
-      h += '<p class="desc">체크하신 ' + hits.length + '개 항목은 신고 전에 정리가 필요합니다.</p>';
-      h += hits.map(function (rk) { return '<div class="risk"><b>' + rk.q + '</b><p>' + rk.a + '</p></div>'; }).join('');
-    } else {
-      h += '<div class="ok">체크하신 항목이 없습니다. 다만 계좌 내역과 재산 평가는 신고 전에 한 번 더 확인하시는 것이 좋습니다.</div>';
+    // 가족별 부담
+    var shares = heirShares();
+    if (r.finalTax > 0 && shares.length) {
+      h += '<div class="box"><h3><span class="n">' + (n++) + '</span>가족별로 나누면</h3><table class="heirs"><thead><tr><th>상속인</th><th>법정 몫</th><th>예상 부담</th></tr></thead><tbody>' +
+        shares.map(function (s) { return '<tr><td>' + s.name + '</td><td>' + Math.round(s.ratio * 1000) / 10 + '%</td><td>' + man(r.finalTax * s.ratio) + '</td></tr>'; }).join('') +
+        '</tbody></table><p class="note">법에서 정한 비율(배우자 1.5 : 자녀 1)대로 나눴을 때의 대략적인 몫입니다. 실제로는 각자 받은 재산 비율로 나누고, 상속인끼리는 받은 재산 한도 안에서 서로 책임을 집니다.</p></div>';
     }
-    h += '</div>';
 
-    // 상담 안내
-    h += '<div class="consult"><h3>정확한 금액은 재산 평가에서 갈립니다</h3>' +
-      '<p>' + O.tax + '가 계산 결과를 함께 보고, 공제와 신고 방법을 안내해 드립니다.</p>' +
-      '<div class="btns"><a class="btn-primary" href="tel:' + O.phone.replace(/[^0-9]/g, '') + '">전화 상담 ' + O.phone + '</a>' +
-      '<a class="btn-ghost" href="' + O.consultUrl + '">상담 신청하기</a></div>' +
-      '<div class="btns" style="margin-top:10px;grid-template-columns:1fr"><button type="button" class="btn-ghost" onclick="window.print()">결과 인쇄 · PDF로 저장</button></div></div>';
+    // 계산 내역 (접어 두기)
+    var led = '';
+    led += li('남기신 재산', fmt(r.gross) + '원', '집·땅·건물 + 예금·주식·보험금 + 그 밖의 재산');
+    if (r.debts) led += li('갚아야 할 돈', '− ' + fmt(r.debts) + '원');
+    led += li('장례 비용', '− ' + fmt(r.funeralTotal) + '원');
+    if (r.gifts) led += li('미리 준 재산 더하기', '+ ' + fmt(r.gifts) + '원');
+    led += li('계산 대상', fmt(r.taxableValue) + '원', '', 'tot');
+    led += li('빼 주는 금액', '', '', 'head');
+    led += li(r.lumpIsBasic ? '기본·가족 공제' : '일괄 5억원 공제', '− ' + fmt(r.lump) + '원', r.lumpLabel);
+    if (r.spouseDed) led += li('배우자 공제', '− ' + fmt(r.spouseDed) + '원', r.spouseLabel);
+    if (r.finDed) led += li('예금 등 금융재산 공제', '− ' + fmt(r.finDed) + '원', '예금·주식에서 은행 대출을 뺀 금액 기준');
+    if (r.houseDed) led += li('함께 산 집 공제', '− ' + fmt(r.houseDed) + '원');
+    if (r.limited) led += li('한도 적용', fmt(r.appliedDed) + '원', '미리 준 재산이 있으면 빼 주는 금액에 한도가 생깁니다');
+    led += li('빼 주는 금액 합계', '− ' + fmt(r.appliedDed) + '원', '', 'tot');
+    led += li('세금 계산', '', '', 'head');
+    led += li('세금 매길 금액', fmt(r.taxBase) + '원');
+    if (r.taxBase) led += li('세율 적용', fmt(r.computed) + '원', '세율 ' + Math.round(r.rate * 100) + '%, 누진공제 ' + fmt(r.progressiveDeduct) + '원');
+    if (r.surcharge) led += li('손주 상속 할증', '+ ' + fmt(r.surcharge) + '원');
+    if (r.giftCredit) led += li('이미 낸 증여세', '− ' + fmt(r.giftCredit) + '원');
+    if (r.filingCredit) led += li('기한 내 신고 3% 할인', '− ' + fmt(r.filingCredit) + '원');
+    led += li('예상 상속세', fmt(r.finalTax) + '원', '', 'tot');
+    h += '<div class="box"><h3><span class="n">' + (n++) + '</span>어떻게 계산됐나요?</h3>' +
+      '<details class="fold calc"><summary>계산 내역 펼쳐 보기</summary><ul class="ledger">' + led + '</ul>' +
+      (r.notes.length ? '<ul class="talk" style="margin-top:12px;color:var(--muted);font-size:13.5px">' + r.notes.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' : '') +
+      '</details></div>';
 
-    h += '<p class="disclaimer">이 계산은 2026년 현행 「상속세 및 증여세법」 기준의 참고용 예상치입니다. 외국납부세액공제 한도는 해외재산 비율로 단순 계산했으며, 외국 세금 자체(일본 상속세 등)는 계산하지 않습니다. 재산 평가 방법, 상속재산 분할, 비상속인 유증·상속포기, 감정평가수수료 공제, 가업·영농상속공제 등은 반영하지 않았으며 실제 세액과 다를 수 있습니다.</p>';
+    // 상담 때 말씀해 주실 것
+    h += '<div class="box"><h3><span class="n">' + (n++) + '</span>상담 때 꼭 말씀해 주세요</h3><ul class="talk">' +
+      '<li>돌아가시기 1~2년 사이에 큰돈을 찾거나, 집·땅을 팔거나, 대출을 받으신 일</li>' +
+      '<li>가족에게 생활비가 아닌 목돈을 보내신 일</li>' +
+      '<li>다른 사람 이름으로 해 둔 예금이나 부동산</li>' +
+      '<li>운영하시던 가게나 회사, 비상장 주식</li>' +
+      '<li>일본·중국 등 해외에 있는 재산이나 해외에 사는 가족</li>' +
+      '</ul><p class="note">이런 내용은 계산기로는 판단하기 어렵고, 신고 방법에 따라 세금이 크게 달라질 수 있습니다.</p></div>';
+
+    // 준비물
+    h += '<div class="box"><h3><span class="n">' + (n++) + '</span>상담 전에 챙기시면 좋아요</h3><ul class="docs">' +
+      ['가족관계증명서 (돌아가신 분 기준)', '안심상속 원스톱 서비스 재산 조회 결과', '부동산 등기부등본', '돌아가신 분 통장 거래내역 (최근 2년)', '예전에 낸 증여세 신고서 (있으면)']
+        .map(function (d, i) { return '<li><label><input type="checkbox" id="doc' + i + '">' + d + '</label></li>'; }).join('') +
+      '</ul><p class="note">없어도 첫 상담은 가능합니다. 체크는 이 화면에서만 표시됩니다.</p></div>';
+
+    // 상담
+    h += '<div class="cta"><h3>이 결과를 들고 상담받아 보세요</h3><p>' + O.tax + '가 직접 보고, 놓친 공제와 신고 방법을 짚어 드립니다.</p>' +
+      '<div class="row"><a class="a1" href="tel:' + digits(O.phone) + '">전화 ' + O.phone + '</a><a class="a2" href="' + O.consultUrl + '">상담 신청</a>' +
+      '<button type="button" class="a3" onclick="window.print()">결과를 PDF로 저장·인쇄</button></div></div>';
+
+    h += '<p class="fine">2026년 현행 「상속세 및 증여세법」으로 계산한 참고용 예상치입니다. 돌아가신 분이 한국에 사신 경우를 기준으로 하며, 재산 평가 방법, 실제 재산 나누기, 유증·상속포기, 감정평가수수료, 가업·영농상속공제, 해외 재산의 외국 세금 등은 반영하지 않았습니다.</p>';
 
     box.innerHTML = h;
+    $('f').classList.add('hidden');
+    document.querySelector('.progress').classList.add('hidden');
     box.classList.remove('hidden');
-    $('go').textContent = '입력값 바꿔서 다시 계산하기';
-    box.scrollIntoView({ behavior: 'smooth' });
-  });
+    $('prev').disabled = false; $('prev').textContent = '고치기';
+    $('next').textContent = '처음부터 다시';
+    window.scrollTo({ top: box.offsetTop - 10, behavior: 'smooth' });
+  }
+
+  function alertBox(msg) {
+    show(1);
+    var p = document.querySelector('.panel[data-step="1"] .sub');
+    p.innerHTML = '<b style="color:#a2412a">' + msg + '</b>';
+  }
+
+  // "고치기" 다음엔 다시 "이전"으로
+  var _show = show;
+  show = function (n) { $('prev').textContent = '이전'; _show(n); };
 })();
 </script>
 </body>

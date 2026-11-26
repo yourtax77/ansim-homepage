@@ -61,6 +61,9 @@
   .cred b { color: #e9c98f; }
   .about-badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
   .about-badges span { font-size: 14px; font-weight: 700; color: var(--brand); background: var(--brand-soft); border-radius: 8px; padding: 6px 12px; }
+  .about-badges span.two { text-align: center; line-height: 1.35; }
+  .about-badges span.two small { display: block; font-size: 12px; font-weight: 600; opacity: .85; }
+  .about-badges { align-items: center; }
   .about-badges span.snu { background: var(--brand); color: #fff; }
   .hero-btns { display: flex; flex-wrap: wrap; gap: 10px; }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 54px; padding: 0 24px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 16px; border: 0; cursor: pointer; font-family: inherit; }
@@ -151,7 +154,11 @@
   .contact-lang { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #b81c36; background: #fff5f6; border: 1.5px solid #e9a3ad; border-radius: 10px; padding: 8px 14px; font-size: 15px; }
   .contact-lang span { background: #b81c36; color: #fff; border-radius: 6px; padding: 1px 8px; font-size: 13px; }
   nav.main a { white-space: nowrap; }
-  .nav-yt { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+  .nav-yt { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; font-weight: 700; line-height: 1.1; }
+  .nav-yt .yt-top { display: inline-flex; align-items: center; gap: 6px; }
+  .yt-ch { display: inline-flex; align-items: center; gap: 3px; background: linear-gradient(135deg, #2f6bff, #1d4fe0); border-radius: 6px; padding: 2px 5px 2px 7px; box-shadow: 0 2px 6px rgba(29,79,224,.25); }
+  .yt-ch b { color: #fff; font-size: 11px; font-weight: 800; letter-spacing: -0.03em; }
+  .yt-ch i { font-style: normal; background: #fff; color: #1d4fe0; font-size: 9.5px; font-weight: 800; border-radius: 999px; padding: 0 5px; line-height: 1.5; }
   .nav-yt:hover { color: #d40000 !important; }
 
   @media (max-width: 1080px) { nav.main { display: none; } }
@@ -163,6 +170,10 @@
   .jc-band::after { content: ""; position: absolute; right: -80px; top: 50%; width: 320px; height: 320px; transform: translateY(-50%); border-radius: 50%; background: rgba(255,255,255,.08); }
   .jc-inner { position: relative; z-index: 1; }
   .jc-band .btn { background: #fff; color: #b81c36; box-shadow: 0 8px 22px rgba(80,0,10,.25); }
+  .jc-btns { display: flex; flex-direction: column; gap: 10px; }
+  .jc-band .btn.jc-btn-sub { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.7); box-shadow: none; }
+  .jc-band .btn.jc-btn-sub:hover { background: rgba(255,255,255,.12); }
+  @media (max-width: 760px) { .jc-btns { width: 100%; } .jc-btns .btn { width: 100%; } }
   .jc-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
   .jc-kicker { color: #ffe3a3; font-weight: 700; font-size: 13px; letter-spacing: .1em; }
   .jc-band h2 { font-size: clamp(24px, 4.2vw, 34px); line-height: 1.32; margin: 6px 0 16px; letter-spacing: -0.04em; font-weight: 800; }
@@ -187,6 +198,13 @@
   .tl:last-child { border-bottom: 0; }
   .tl .when { font-weight: 800; color: var(--brand); font-size: 15px; }
   .tl .when small { display: block; color: var(--muted); font-weight: 400; font-size: 12.5px; }
+  .step p.step-plus { margin-top: 10px; padding: 9px 11px; background: var(--accent-soft); border-radius: 8px; color: #5b4520; font-size: 14px; }
+  .step-plus b { color: #3d2d10; }
+  .tl-one { display: block; margin-top: 4px; color: var(--brand); font-weight: 700; }
+  .tl-pros { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .tl-pros span { font-size: 14px; background: var(--brand-soft); color: var(--ink); border-radius: 8px; padding: 6px 12px; }
+  .tl-pros b { color: var(--brand); margin-right: 6px; }
+  .tl-pros b::after { content: "→"; margin-left: 6px; color: var(--muted); font-weight: 400; }
   .tl h3 { margin: 0 0 4px; font-size: 17px; }
   .tl p { margin: 0; color: var(--muted); font-size: 14.5px; }
   .tl.key h3::after { content: "세무사 업무"; margin-left: 8px; font-size: 11.5px; vertical-align: 2px; background: var(--accent-soft); color: #8a6326; border-radius: 6px; padding: 2px 7px; }
@@ -206,6 +224,7 @@
   .about + .about { margin-top: 64px; padding-top: 64px; border-top: 1px solid var(--line); }
   .about-rev { grid-template-columns: 1fr 340px; }
   .about-rev > .photo { order: 2; }
+  .about-solo { grid-template-columns: 1fr; max-width: 820px; }
   .role { color: var(--accent); font-weight: 700; font-size: 14px; letter-spacing: .02em; }
   .pname { font-size: clamp(26px, 4.4vw, 34px); margin: 2px 0 14px; letter-spacing: -0.04em; font-weight: 800; }
   .photo-empty { display: grid; place-items: center; color: var(--muted); font-size: 15px; background: linear-gradient(160deg, #ece6dc, #e0d8cb); }
@@ -255,6 +274,8 @@
   .faq summary::-webkit-details-marker { display: none; }
   .faq summary::after { content: "+"; position: absolute; right: 20px; top: 14px; font-size: 22px; color: var(--brand); }
   .faq details[open] summary::after { content: "−"; }
+  .faq-yt { display: inline-block; margin-top: 10px; font-size: 14px; font-weight: 700; color: #d40000; text-decoration: none; background: #fff1f1; border-radius: 8px; padding: 5px 12px; }
+  .faq-yt:hover { background: #ffe3e3; }
   .faq .ans { padding: 0 20px 18px; color: var(--muted); font-size: 15px; }
 
   /* 상담 */
@@ -265,6 +286,13 @@
   .contact-list a { gap: 12px; }
   .contact-list span { font-size: 14px; }
   .contact-list b { font-size: 18px; color: var(--brand); white-space: nowrap; }
+  .map { margin: 16px 0 0; background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .map img { width: 100%; height: auto; display: block; }
+  .map figcaption { padding: 12px 16px 4px; font-size: 14px; color: var(--muted); }
+  .map figcaption b { color: var(--brand); }
+  .map-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 16px 16px; }
+  .map-btns a { text-align: center; text-decoration: none; font-size: 14px; font-weight: 700; padding: 9px 0; border-radius: 10px; background: var(--brand-soft); color: var(--brand); }
+  .map-btns a:hover { background: #d9e8e2; }
   form.consult { background: var(--bg); border-radius: 18px; padding: 26px 22px; }
   form.consult .f { margin-bottom: 14px; }
   form.consult label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
@@ -308,7 +336,7 @@
       <a href="calculator/">상속세 계산기</a>
       <a href="#about">세무사 소개</a>
       <a href="#faq">자주 묻는 질문</a>
-      <a class="nav-yt" data-link="youtube" target="_blank" rel="noopener"><svg viewBox="0 0 24 17" width="20" height="14" aria-hidden="true"><rect width="24" height="17" rx="4" fill="#ff0000"/><path d="M9.6 4.8v7.4l6.2-3.7z" fill="#fff"/></svg>유튜브</a>
+      <a class="nav-yt" data-link="youtube" target="_blank" rel="noopener" title="유튜브 안심상속닷컴 채널"><span class="yt-top"><svg viewBox="0 0 24 17" width="20" height="14" aria-hidden="true"><rect width="24" height="17" rx="4" fill="#ff0000"/><path d="M9.6 4.8v7.4l6.2-3.7z" fill="#fff"/></svg>유튜브</span><span class="yt-ch"><b>안심상속</b><i>.com</i></span></a>
     </nav>
     <div class="head-right"><a class="head-lang" href="japan-china/" title="일본어·중국어 상담">日本語 · 中文<span class="lg-x"> 상담</span></a><a class="head-tel" data-tel href="#"><span data-office="phone"></span></a></div>
   </div>
@@ -325,7 +353,7 @@
         <p class="lead">무엇부터 해야 할지 막막한 순간, 재산 확인부터 상속세 신고와 이후 국세청 검토까지 순서대로 안내해 드립니다.</p>
         <div class="cred">
           <span><b>서울대</b> 출신 세무사</span>
-          <span><b>일본·중국</b> 상속 특화</span>
+          <span><b>일본·중국</b> 상속 업무 지원</span>
           <span><b>일본어·중국어</b> 상담</span>
           <span>영등포세무서 국세심사위원</span>
           <span>『부동산 세금 Navi 52선』 공저</span>
@@ -360,7 +388,7 @@
         <a href="#consult"><div class="q">상가·토지를 얼마로 신고해야 할지 모르겠어요</div><div class="a">공시가격과 감정평가 중 무엇이 유리한지, 나중에 팔 때 양도세까지 함께 따져봅니다.</div><span class="go">상담 신청 →</span></a>
         <a href="#consult"><div class="q">상속세 조사 연락을 받았어요</div><div class="a">신고 내용과 금융거래를 다시 점검하고, 자료 제출과 조사 대응을 직접 맡습니다.</div><span class="go">상담 신청 →</span></a>
         <a href="#consult"><div class="q">살아계실 때 미리 준비하고 싶어요</div><div class="a">사전증여 시기와 금액, 10년 합산 기간을 고려해 가족 전체의 세금을 설계합니다.</div><span class="go">상담 신청 →</span></a>
-        <a href="japan-china/" class="wide"><div class="q">가족이 일본·중국에 살거나, 그곳에 재산이 있어요</div><div class="a">어느 나라에 어떤 세금을 내야 하는지, 서류와 송금 절차까지 함께 정리합니다. <b style="color:#fff">일본어·중국어로 상담할 수 있습니다.</b></div><span class="go">일본·중국 상속 보기 →</span></a>
+        <a href="japan-china/" class="wide"><div class="q">가족이 일본·중국에 살거나, 그곳에 재산이 있어요</div><div class="a">어느 나라에 어떤 세금을 내야 하는지, 서류와 송금 절차까지 함께 정리합니다. <b style="color:#fff">전문 세무사가 직접 일본어·중국어로 상담해 드립니다.</b></div><span class="go">일본·중국 상속 보기 →</span></a>
       </div>
     </div>
   </section>
@@ -391,11 +419,14 @@
       <div>
         <div class="jc-kicker">JAPAN · CHINA</div>
         <h2>가족이 일본·중국에 있어도<br>상속은 한 곳에서 끝납니다</h2>
-        <p class="jc-sub"><mark>다년간의 일본기업·중국기업 세무서비스 경험</mark>을 바탕으로,<br>보다 꼼꼼한 일본·중국 상속세 신고까지 함께합니다.</p>
+        <p class="jc-sub"><mark>다년간의 일본기업·중국기업 세무서비스 경험</mark>을 바탕으로,<br>일본·중국 상속 업무 지원을 합니다.</p>
         <div class="jc-points"><span>일본·중국 거주 상속인</span><span>해외 거주 피상속인</span><span>일본·중국 소재 재산</span></div>
         <div class="langbox"><div class="lb-title">일본어 · 중국어로 직접 상담합니다</div><div class="lb-items"><a href="#consult" lang="ja"><b>日本語</b><span>日本語でのご相談も承ります</span></a><a href="#consult" lang="zh"><b>中文</b><span>可提供中文咨询</span></a></div></div>
       </div>
-      <a class="btn btn-gold" href="japan-china/">일본·중국 상속 자세히 보기 →</a>
+      <div class="jc-btns">
+        <a class="btn btn-gold" href="japan-china/">일본·중국 상속 자세히 보기 →</a>
+        <a class="btn jc-btn-sub" href="https://tax6949.com/" target="_blank" rel="noopener">일본·중국 기업 세무서비스 보기 ↗</a>
+      </div>
     </div>
   </section>
 
@@ -404,14 +435,14 @@
     <div class="wrap">
       <div class="calc-banner">
         <div>
-          <h2 class="serif">우리 가족 상속세,<br>3분이면 미리 알 수 있습니다</h2>
+          <h2 class="serif">우리 가족 상속세,<br>세 가지 질문으로 미리 알아보세요</h2>
           <p>2026년 현행 세법 기준 · 이름·연락처 입력 없이 무료로 계산합니다.</p>
           <a class="btn btn-white" href="calculator/">상속세 계산기 열기 →</a>
         </div>
         <ul>
-          <li><b>STEP 1</b>재산과 빚, 생전에 증여한 재산 입력</li>
-          <li><b>STEP 2</b>배우자·자녀 등 가족 구성 선택</li>
-          <li><b>RESULT</b>예상 세액 · 공제 내역 · 신고기한 · 점검할 항목</li>
+          <li><b>① 가족</b>누가 상속받는지 고르기</li>
+          <li><b>② 재산 · ③ 미리 준 재산</b>대략의 금액만 적기</li>
+          <li><b>결과</b>예상 상속세 · 가족별 부담 · 마감일 · 상담 준비물</li>
         </ul>
       </div>
     </div>
@@ -430,7 +461,7 @@
         <div class="tl"><div class="when">3개월 이내<small>상속을 안 날부터</small></div><div><h3>상속포기 · 한정승인 결정</h3><p>빚이 재산보다 많을 수 있다면 법원에 상속포기나 한정승인을 신청할지 결정해야 합니다.</p></div></div>
         <div class="tl key"><div class="when">6개월 이내<small>사망한 달 말일부터</small></div><div><h3>상속세 신고 · 납부</h3><p>기한 내 신고하면 세액의 3%를 공제받습니다. 금액이 크면 연부연납 신청도 이때 함께 합니다.</p></div></div>
         <div class="tl"><div class="when">6개월 이내<small>사망한 달 말일부터</small></div><div><h3>상속 부동산 취득세 · 등기</h3><p>부동산을 상속받으면 취득세를 신고·납부하고 상속등기를 합니다.</p></div></div>
-        <div class="tl key"><div class="when">신고기한 후 9개월<small>배우자가 있는 경우</small></div><div><h3>배우자 상속재산 분할 · 등기</h3><p>배우자상속공제를 5억원 넘게 받으려면 이 기한까지 재산 분할과 등기·명의이전을 마쳐야 합니다.</p></div></div>
+        <div class="tl key"><div class="when">상속 전 과정<small>필요한 전문가와 함께</small></div><div><h3>전문가 업무 조율</h3><p>상속에 필요한 여러 전문가 업무 조율은 세무사가 진행합니다. <b class="tl-one">등기 따로, 감정 따로 전문가를 찾아다니지 않으셔도 됩니다.</b></p><div class="tl-pros"><span><b>등기</b> 법무사</span><span><b>부동산 감정</b> 감정평가사</span></div></div></div>
       </div>
     </div>
   </section>
@@ -445,8 +476,8 @@
       <div class="process">
         <div class="step"><h3>첫 상담</h3><p>가족 구성과 재산 상황을 듣고, 필요한 서류와 일정을 안내합니다.</p></div>
         <div class="step"><h3>재산 확인 · 평가</h3><p>재산과 채무를 조회하고 부동산·주식의 평가 방법을 정합니다.</p></div>
-        <div class="step"><h3>세액 비교 · 신고</h3><p>분할 방법과 공제를 비교해 가장 적절한 방법으로 신고합니다.</p></div>
-        <div class="step"><h3>신고 후 대응</h3><p>국세청 검토와 자료 요청, 조사까지 같은 세무사가 이어서 대응합니다.</p></div>
+        <div class="step"><h3>세액 비교 · 신고</h3><p>분할 방법과 공제를 비교해 상속인에게 최적화한 방법으로 신고합니다.</p><p class="step-plus">상속인들이 이해하기 쉽게 풀어 쓴 <b>상속세 검토 보고서</b>를 함께 드립니다.</p></div>
+        <div class="step"><h3>신고 후 대응</h3><p>국세청 검토와 자료 요청, 조사까지 상속 전문 세무사가 대응합니다.</p></div>
       </div>
     </div>
   </section>
@@ -454,12 +485,12 @@
   <!-- 세무사 소개 -->
   <section class="sec alt" id="about">
     <div class="wrap">
-      <div class="sec-head"><div class="kicker">ABOUT</div><h2>세무사 소개</h2><p>서울대 동문 세무사와 국세청 조사국 출신 세무사가 함께 상속을 맡습니다.</p></div>
+      <div class="sec-head"><div class="kicker">ABOUT</div><h2>세무사 소개</h2><p>서울대학교 출신 세무사와 국세청 출신 세무사가 함께 상속을 맡습니다.</p></div>
       <div class="about">
       <img class="photo" src="images/profile.jpg" alt="조근열 세무사 프로필 사진" width="900" height="1044" loading="lazy">
       <div>
         <div class="role">대표 세무사</div><h3 class="pname">조근열 세무사</h3>
-        <div class="about-badges"><span class="snu">서울대학교 학사 · 경제학석사</span><span>국세심사위원</span><span>부동산 세금 저자</span></div>
+        <div class="about-badges"><span class="snu">서울대학교 학사 · 경제학석사</span><span class="two">서울지방국세청 상속조사 경험 多<small>(상속재산 50억 이상 신고 多)</small></span><span>국세심사위원</span><span>부동산 세금 저자</span></div>
         <blockquote class="serif">“상속은 한 번뿐인 일입니다.<br>처음부터 끝까지 같은 사람이 책임지고 안내하겠습니다.”</blockquote>
         <p class="about-intro">서울대학교 동문 세무사로서 세무서 국세심사위원으로 활동하며 납세자와 과세관청 양쪽의 시각을 함께 보고 있습니다. 그 경험으로 복잡한 상속 세금을 쉽게 풀어 설명해 드립니다.</p>
         <dl>
@@ -472,17 +503,16 @@
         </dl>
       </div>
       </div>
-      <div class="about about-rev">
-      <div class="photo photo-empty" role="img" aria-label="서봉수 세무사 프로필 사진 자리">프로필 사진 준비 중</div>
+      <div class="about about-solo">
+      <!-- 서봉수 세무사 사진이 생기면: 위 div 의 class 를 "about about-rev" 로 바꾸고 여기에 <img class="photo" src="images/profile-seo.jpg" alt="서봉수 세무사 프로필 사진"> 추가 -->
       <div>
         <div class="role">파트너 세무사</div><h3 class="pname">서봉수 세무사</h3>
-        <div class="about-badges"><span class="snu">국세청 출신</span><span>중부지방국세청 조사국</span></div>
+        <div class="about-badges"><span class="snu">국세청 출신</span><span>중부지방국세청 조사국 근무</span><span>서울지방국세청 세무조사 경험 多</span><span>조세불복 승소 이력 多</span></div>
         <blockquote class="serif">“조사 현장에서 쌓은 경험으로,<br>신고 전에 문제가 될 부분을 먼저 짚어드립니다.”</blockquote>
         <p class="about-intro">국세청 조사국에서 직접 조사 업무를 맡았던 세무사입니다. 국세청이 상속세 신고서의 어떤 부분을 보는지 알기에, 사전 점검과 상속세 조사 대응을 함께 책임집니다.</p>
         <dl>
-          <dt>주요 경력</dt><dd>국세청 출신 세무사<br>중부지방국세청 조사3국 · 조사4국 근무</dd>
-          <dt>현재</dt><dd>세무법인대교 (영등포점) 파트너 세무사</dd>
-          <dt>학력·기타</dt><dd><small>추가 예정</small></dd>
+          <dt>주요 경력</dt><dd>국세청 출신 세무사<br>중부지방국세청 조사3국 근무<br>예일세무법인 파트너 세무사</dd>
+          <dt>현재</dt><dd>세무법인대교 (영등포점) 파트너 세무사<br>SJ세무회계 대표 세무사</dd>
         </dl>
       </div>
       </div>
@@ -510,10 +540,12 @@
     <div class="wrap">
       <div class="sec-head"><div class="kicker">FAQ</div><h2>자주 묻는 질문</h2></div>
       <div class="faq">
-        <details><summary>재산이 얼마부터 상속세가 나오나요?</summary><div class="ans">가족 구성에 따라 다릅니다. 배우자와 자녀가 함께 상속받으면 일괄공제 5억원과 배우자공제 최소 5억원이 적용되어 대략 10억원 이하는 상속세가 나오지 않는 경우가 많습니다. 자녀만 상속받으면 대략 5억원이 기준이 됩니다. 금융재산 공제나 사전증여 여부에 따라 달라지니 계산기로 확인해 보세요.</div></details>
-        <details><summary>상속세가 안 나와도 신고해야 하나요?</summary><div class="ans">의무는 아니지만 신고를 권해 드리는 경우가 많습니다. 상속 부동산을 나중에 팔 때 상속 당시 신고한 금액이 취득가액이 되기 때문에, 적절한 금액으로 신고해 두면 양도세를 줄일 수 있습니다.</div></details>
+        <details><summary>재산이 얼마부터 상속세가 나오나요?</summary><div class="ans">가족 구성에 따라 다릅니다. 배우자와 자녀가 함께 상속받으면 일괄공제 5억원과 배우자공제 최소 5억원이 적용되어 대략 10억원 이하는 상속세가 나오지 않는 경우가 많습니다. 자녀만 상속받으면 대략 5억원이 기준이 됩니다. 금융재산 공제나 사전증여 여부에 따라 달라지니 계산기로 확인해 보세요.<br><b style="color:var(--ink)">다만 재산 평가 방법에 따라 과세 여부가 달라질 수 있습니다. 추후 양도세 절세까지 고려한다면 세무 상담을 받는 것이 좋습니다.</b></div></details>
         <details><summary>신고기한은 언제까지인가요?</summary><div class="ans">돌아가신 날이 속한 달의 말일부터 6개월 이내입니다. 예를 들어 3월 15일에 돌아가셨다면 9월 30일까지입니다. 돌아가신 분이나 상속인 전원이 해외에 주소를 두었다면 9개월입니다.</div></details>
-        <details><summary>자녀가 일본에 사는데, 일본에도 상속세를 내야 하나요?</summary><div class="ans">그럴 수 있습니다. 일본 상속세는 재산을 받는 상속인을 기준으로 과세하기 때문에, 일본에 사는 상속인은 한국 재산을 받아도 일본 신고 대상이 될 수 있습니다. 이 경우 한국과 일본 양쪽 신고기한(한국 9개월, 일본 10개월)과 외국납부세액공제를 함께 검토해야 합니다. 중국은 현재 상속세가 없지만 상속 공증과 재산 이전 절차가 필요합니다.</div></details>
+        <details><summary>부모님이 돌아가신 뒤, 상속세 신고 전에 예금을 찾아도 되나요?</summary><div class="ans">네, 적법한 절차를 밟으면 신고 전이라도 찾을 수 있습니다. 상속인 전원의 위임장·인감증명서·가족관계증명서 등이 필요하고, 은행마다 요구 서류가 다르니 방문 전에 확인하세요. 다만 빚이 재산보다 많아 상속포기나 한정승인을 고민 중이라면 예금을 찾는 순간 상속을 받아들인 것(단순승인)으로 볼 수 있으니 먼저 상담을 받으세요. 배우자가 있다면 재산을 어떻게 나누느냐에 따라 배우자공제와 상속세가 크게 달라질 수 있습니다.<br><a class="faq-yt" href="https://www.youtube.com/shorts/18eK5BER7mA" target="_blank" rel="noopener">▶ 1분 영상으로 보기</a></div></details>
+        <details><summary>사망보험금도 상속세를 내나요?</summary><div class="ans">보험료를 누가 냈는지가 핵심입니다. 돌아가신 분이 보험료를 냈다면 수익자가 자녀 이름이어도 상속재산으로 보아 상속세 대상이 됩니다. 반대로 자녀가 자기 소득으로 보험료를 냈다면 상속재산에서 빠지지만, 직접 낸 사실을 입증해야 합니다. 또 지정된 수익자가 받은 보험금을 다른 가족과 나누면 증여세가 나올 수 있으니 주의하세요.<br><a class="faq-yt" href="https://www.youtube.com/shorts/I0Aiw4X1Ic0" target="_blank" rel="noopener">▶ 1분 영상으로 보기</a></div></details>
+        <details><summary>상속세가 많이 나오면 나눠서 낼 수 있나요?</summary><div class="ans">네, 연부연납 제도가 있습니다. 납부할 상속세가 2천만원을 넘으면 담보를 제공하고 세무서 허가를 받아 최대 10년까지 나눠 낼 수 있습니다. 다만 첫 회분은 신고기한까지 먼저 내야 하고, 매회 나눠 내는 금액이 1천만원을 넘도록 기간을 정해야 합니다. 곧 팔 계획인 부동산은 담보에서 빼는 편이 좋습니다.<br><a class="faq-yt" href="https://www.youtube.com/shorts/Qwzt-CBXJYU" target="_blank" rel="noopener">▶ 1분 영상으로 보기</a></div></details>
+        <details><summary>상속인끼리 재산 나누기 합의가 안 되면 신고는 어떻게 하나요?</summary><div class="ans">합의가 안 되어도 신고기한은 늘어나지 않습니다. 일단 법정지분(배우자 1.5 : 자녀 1)대로 기한 안에 신고해 무신고 가산세(20%)부터 막으세요. 나중에 소송으로 나누는 비율이 확정되면 상속받은 날로 거슬러 효력이 생기고, 확정판결로 더 받게 되어도 증여세는 나오지 않습니다. 다만 법정지분대로 등기한 뒤 상속인끼리 협의로 다시 나누면 증여세가 나올 수 있습니다.<br><a class="faq-yt" href="https://www.youtube.com/shorts/wW_OiV8FneM" target="_blank" rel="noopener">▶ 1분 영상으로 보기</a></div></details>
         <details><summary>상담에는 무엇을 준비하면 되나요?</summary><div class="ans">가족관계증명서, 안심상속 원스톱 조회 결과, 부동산 등기부등본, 최근 2년 정도의 통장 거래내역이 있으면 상담이 빠릅니다. 없어도 첫 상담은 가능합니다.</div></details>
         <details><summary>수수료는 어떻게 정해지나요?</summary><div class="ans">재산 규모와 종류, 평가·소명이 필요한 범위에 따라 달라집니다. 첫 상담에서 업무 범위를 확인한 뒤 미리 안내해 드립니다.</div></details>
       </div>
@@ -536,6 +568,11 @@
           <a data-mail data-optional href="#"><span>이메일</span><b data-office="email" style="font-size:15px"></b></a>
           <a data-optional href="#" onclick="return false"><span>사무소 위치</span><b data-office="address" style="font-size:14px;white-space:normal;text-align:right"></b></a>
         </div>
+        <figure class="map">
+          <img src="images/map.svg" alt="약도: 9호선 선유도역 6·7·8번 출구 남쪽, 아이에스비즈타워 14층 세무법인 대교" width="680" height="440" loading="lazy">
+          <figcaption><b>9호선 선유도역 6·7·8번 출구</b>에서 가까워요 · 아이에스비즈타워 14층</figcaption>
+          <div class="map-btns"><a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC%20%EC%96%91%ED%8F%89%EB%A1%9C21%EA%B8%B8%2026" target="_blank" rel="noopener">네이버 지도</a><a href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%20%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC%20%EC%96%91%ED%8F%89%EB%A1%9C21%EA%B8%B8%2026" target="_blank" rel="noopener">카카오맵</a></div>
+        </figure>
       </div>
       <form class="consult" id="consultForm" novalidate>
         <div class="f"><label for="cName">성함</label><input type="text" id="cName" autocomplete="name" maxlength="40" required></div>
