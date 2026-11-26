@@ -256,7 +256,7 @@ ${p.faq.map(([q, a]) => `    <details><summary>${esc(q)}</summary><div class="an
   <p><span data-office="brand"></span>는 세무법인대교의 브랜드입니다. · <a href="${up}privacy/">개인정보처리방침</a></p>
 </div></footer>
 <script src="${up}assets/guide.js"></script>
-<script src="/assets/chat.js?v=5" defer></script>
+<script src="/assets/chat.js?v=6" defer></script>
 </body>
 </html>
 `;
