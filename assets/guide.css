@@ -15,6 +15,9 @@ header.site .wrap { display: flex; align-items: center; justify-content: space-b
 .logo { display: flex; flex-direction: column; line-height: 1.2; text-decoration: none; }
 .logo b { font-size: 21px; font-weight: 800; color: var(--brand); letter-spacing: -0.04em; white-space: nowrap; }
 .logo span { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.logo { position: relative; padding-left: 48px; }
+.logo::before { content: ""; position: absolute; left: 0; top: 50%; width: 40px; height: 40px; margin-top: -20px; border-radius: 10px; background: url(/favicon.svg) center / contain no-repeat; }
+@media (max-width: 420px) { .logo { padding-left: 42px; } .logo::before { width: 35px; height: 35px; margin-top: -17.5px; } }
 .head-tel { text-decoration: none; background: var(--brand); color: #fff; padding: 8px 15px; border-radius: 999px; font-size: 14px; font-weight: 700; white-space: nowrap; }
 
 .hero { background: linear-gradient(140deg, #e23a3f 0%, #c81f3a 55%, #a3173a 100%); color: #fff; padding: 46px 0 50px; }

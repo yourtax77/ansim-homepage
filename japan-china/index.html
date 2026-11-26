@@ -42,6 +42,9 @@
   .logo { display: flex; flex-direction: column; text-decoration: none; line-height: 1.2; }
   .logo b { font-size: 22px; font-weight: 800; color: var(--brand); letter-spacing: -0.04em; white-space: nowrap; }
   .logo span { font-size: 12px; color: var(--muted); white-space: nowrap; letter-spacing: -0.01em; }
+  .logo { position: relative; padding-left: 48px; }
+  .logo::before { content: ""; position: absolute; left: 0; top: 50%; width: 40px; height: 40px; margin-top: -20px; border-radius: 10px; background: url(/favicon.svg) center / contain no-repeat; }
+  @media (max-width: 420px) { .logo { padding-left: 42px; } .logo::before { width: 35px; height: 35px; margin-top: -17.5px; } }
   @media (max-width: 420px) { .logo b { font-size: 19px; } .logo span { font-size: 11px; } }
   nav.main { display: flex; gap: 26px; font-size: 15px; font-weight: 500; }
   nav.main a { text-decoration: none; }
@@ -269,6 +272,11 @@
   .why-item.main p { color: rgba(255,255,255,.92); }
   .why + .global { padding-top: 64px; }
   nav.main a { white-space: nowrap; }
+  nav.main a.on { color: var(--brand); }
+  .head-right { display: flex; align-items: center; gap: 8px; }
+  .head-lang { text-decoration: none; font-size: 13px; font-weight: 700; color: #b81c36; border: 1.5px solid #e9a3ad; background: #fff5f6; border-radius: 999px; padding: 7px 12px; white-space: nowrap; }
+  @media (max-width: 760px) { .head-lang { padding: 6px 10px; font-size: 12.5px; } .head-lang .lg-x { display: none; } }
+  @media (max-width: 360px) { .head-lang { display: none; } }
   @media (max-width: 1080px) { nav.main { display: none; } }
   .nav-yt { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; font-weight: 700; line-height: 1.1; }
   .nav-yt .yt-top { display: inline-flex; align-items: center; gap: 6px; }
@@ -300,13 +308,13 @@
     <a class="logo" href="../"><b data-office="brand">안심상속센터</b><span data-office="name"></span></a>
     <nav class="main">
       <a href="../#services">상속 업무</a>
-      <a href="./">일본·중국 상속</a>
+      <a class="on" href="./" aria-current="page">일본·중국 상속</a>
       <a href="../calculator/">상속세 계산기</a>
       <a href="../#about">세무사 소개</a>
       <a href="../#faq">자주 묻는 질문</a>
       <a class="nav-yt" data-link="youtube" target="_blank" rel="noopener" title="유튜브 안심상속닷컴 채널"><span class="yt-top"><svg viewBox="0 0 24 17" width="20" height="14" aria-hidden="true"><rect width="24" height="17" rx="4" fill="#ff0000"/><path d="M9.6 4.8v7.4l6.2-3.7z" fill="#fff"/></svg>유튜브</span><span class="yt-ch"><b>안심상속</b><i>.com</i></span></a>
     </nav>
-    <a class="head-tel" href="../#consult">상담신청</a>
+    <div class="head-right"><a class="head-lang" href="./" title="일본어·중국어 상담">日本語 · 中文<span class="lg-x"> 상담</span></a><a class="head-tel" href="../#consult">상담신청</a></div>
   </div>
 </header>
 

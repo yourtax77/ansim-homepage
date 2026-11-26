@@ -41,11 +41,14 @@
   .logo { display: flex; flex-direction: column; text-decoration: none; line-height: 1.2; }
   .logo b { font-size: 22px; font-weight: 800; color: var(--brand); letter-spacing: -0.04em; white-space: nowrap; }
   .logo span { font-size: 12px; color: var(--muted); white-space: nowrap; letter-spacing: -0.01em; }
+  .logo { position: relative; padding-left: 48px; }
+  .logo::before { content: ""; position: absolute; left: 0; top: 50%; width: 40px; height: 40px; margin-top: -20px; border-radius: 10px; background: url(/favicon.svg) center / contain no-repeat; }
+  @media (max-width: 420px) { .logo { padding-left: 42px; } .logo::before { width: 35px; height: 35px; margin-top: -17.5px; } }
   @media (max-width: 420px) { .logo b { font-size: 19px; } .logo span { font-size: 11px; } }
   nav.main { display: flex; gap: 26px; font-size: 15px; font-weight: 500; }
   nav.main a { text-decoration: none; color: var(--ink); white-space: nowrap; }
   nav.main a:hover { color: var(--brand); }
-  nav.main a.on { color: var(--brand); font-weight: 700; }
+  nav.main a.on { color: var(--brand); }
   .nav-yt { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; font-weight: 700; line-height: 1.1; }
   .nav-yt .yt-top { display: inline-flex; align-items: center; gap: 6px; }
   .yt-ch { display: inline-flex; align-items: center; gap: 3px; background: linear-gradient(135deg, #2f6bff, #1d4fe0); border-radius: 6px; padding: 2px 5px 2px 7px; box-shadow: 0 2px 6px rgba(29,79,224,.25); }
@@ -58,6 +61,7 @@
   @media (max-width: 1080px) { nav.main { display: none; } }
   @media (max-width: 760px) { .head-lang { padding: 6px 10px; font-size: 12.5px; } .head-lang .lg-x { display: none; } }
   @media (max-width: 360px) { .head-lang { display: none; } }
+  @media (max-width: 440px) { header.site .wrap { gap: 8px; } .head-right { gap: 6px; } .head-lang { padding: 6px 8px; font-size: 12px; } .head-tel { padding: 7px 11px; font-size: 13px; } }
 
   /* 소개 */
   .intro { padding: 36px 0 18px; }
