@@ -210,11 +210,5 @@
     e.preventDefault();
     open();
   });
-  // 휴대폰 하단 고정 메뉴에 '채팅 상담'이 있는 페이지는 떠 있는 버튼을 숨깁니다
-  if (document.querySelector('.mobile-bar [data-chat]')) {
-    var hide = document.createElement('style');
-    hide.textContent = '@media (max-width:760px){.ac-btn{display:none!important}}';
-    document.head.appendChild(hide);
-  }
   window.openAnsimChat = open;
 })();
