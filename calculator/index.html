@@ -73,6 +73,7 @@
   /* 예/아니오 */
   .yn { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .yn button { height: 54px; border-radius: 12px; border: 1.5px solid var(--line); background: #fcfbf8; font: inherit; font-size: 16px; font-weight: 700; color: var(--ink); cursor: pointer; }
+  .yn-sub { font-size: 13px; font-weight: 600; opacity: .85; }
   .yn button[aria-pressed="true"] { border-color: var(--brand); background: var(--brand); color: #fff; }
 
   /* 숫자 +/- */
@@ -219,7 +220,7 @@
     <div class="q">
       <span class="qt">돌아가신 분의 배우자가 계신가요?</span>
       <div class="yn" id="spouseYN">
-        <button type="button" data-v="1" aria-pressed="true">계십니다</button>
+        <button type="button" data-v="1" aria-pressed="true">계십니다 <small class="yn-sub">(혼인 유지)</small></button>
         <button type="button" data-v="0" aria-pressed="false">안 계십니다</button>
       </div>
     </div>
