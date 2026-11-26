@@ -80,6 +80,7 @@
   var data = {};
   var onText = null;
   var started = false;
+  var run = 0;  // 창을 새로 열 때마다 증가 (이전 대화의 늦은 응답 무시)
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function scroll() { body.scrollTop = body.scrollHeight; }
@@ -118,7 +119,8 @@
     if (!onText || !v) return;
     var cb = onText;
     me(v); lock();
-    setTimeout(function () { cb(v); }, 250);
+    var r = run;
+    setTimeout(function () { if (r === run) cb(v); }, 250);
   }
   sendBtn.onclick = submitText;
   ta.addEventListener('keydown', function (e) {
@@ -129,7 +131,8 @@
     bot('안녕하세요, <em>안심상속센터</em>입니다.\n어떤 상담이 필요하신가요?');
     chips(['상속세 신고', '사전증여', '세무조사 대응', '일본·중국 상속', '기타 문의'], function (t) {
       data.type = t;
-      setTimeout(stepMsg, 300);
+      var r = run;
+      setTimeout(function () { if (r === run) stepMsg(); }, 300);
     });
   }
   function stepMsg() {
@@ -170,14 +173,16 @@
       name: data.name, tel: data.tel, type: data.type,
       msg: data.msg || '', page: location.pathname + ' (채팅 상담)', website: hp.value
     });
+    var r = run;
     fetch(O.consultEndpoint, { method: 'POST', mode: 'no-cors', body: p })
       .then(function () {
+        if (r !== run) return;
         box.remove();
-        bot('<em>접수되었습니다.</em> 감사합니다.\n확인 후 평일 9~18시 안에 세무사가 직접 연락드리겠습니다.' +
-          (O.phone ? '\n급하시면 ' + esc(O.phone) + '로 전화 주세요.' : ''));
+        bot('<em>접수되었습니다.</em> 감사합니다.\n확인 후 평일 9~18시 안에 세무사가 직접 연락드리겠습니다.');
         lock('상담이 접수되었습니다');
       })
       .catch(function () {
+        if (r !== run) return;
         bot('전송에 실패했습니다. 잠시 후 다시 시도하시거나 전화(' + esc(O.phone || '') + ')로 문의해 주세요.');
         box.querySelector('button').disabled = false;
         box.querySelector('input').disabled = false;
@@ -186,7 +191,13 @@
 
   function open() {
     win.classList.add('open'); btn.style.display = 'none';
-    if (!started) { started = true; start(); }
+    // 열 때마다 처음부터 새로 시작
+    run++;
+    body.innerHTML = '';
+    data = {};
+    lock('위 버튼을 눌러 주세요');
+    started = true;
+    start();
   }
   function close() { win.classList.remove('open'); btn.style.display = ''; }
   btn.onclick = open;
