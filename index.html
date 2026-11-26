@@ -298,7 +298,8 @@
   @media (max-width: 820px) { .consult-wrap { grid-template-columns: 1fr; gap: 24px; } }
   .contact-list { display: grid; gap: 10px; margin-top: 22px; }
   .contact-list a { display: flex; justify-content: space-between; align-items: center; text-decoration: none; background: var(--bg); border-radius: 12px; padding: 16px 18px; }
-  .contact-list a { gap: 12px; }
+  .contact-list a, .contact-list .ci { gap: 12px; }
+  .contact-list .ci { display: flex; justify-content: space-between; align-items: center; background: var(--bg); border-radius: 12px; padding: 16px 18px; }
   .contact-list span { font-size: 14px; }
   .contact-list b { font-size: 18px; color: var(--brand); white-space: nowrap; }
   .map { margin: 16px 0 0; background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
@@ -583,7 +584,7 @@
         </div>
         <div class="contact-lang">일본어 · 중국어 상담 가능 <span lang="ja">日本語</span> <span lang="zh">中文</span></div>
         <div class="contact-list">
-          <a data-tel href="#"><span>대표 전화 · 평일 09:00–18:00</span><b data-office="phone"></b></a>
+          <div class="ci"><span>대표 전화 · 평일 09:00–18:00</span><b data-office="phone"></b></div>
           <a data-sms data-optional href="#"><span>문자 상담 · 주말·야간</span><b data-office="mobile"></b></a>
           <a data-mail data-optional href="#"><span>이메일</span><b data-office="email" style="font-size:15px"></b></a>
           <a data-optional href="#" onclick="return false"><span>사무소 위치</span><b data-office="address" style="font-size:14px;white-space:normal;text-align:right"></b></a>
@@ -630,7 +631,7 @@
 </footer>
 
 <nav class="mobile-bar" aria-label="빠른 연결">
-  <a data-tel href="#">전화 상담</a>
+  <a data-chat href="#consult">채팅 상담</a>
   <a class="main" href="calculator/">상속세 계산</a>
   <a href="#consult">상담 신청</a>
 </nav>

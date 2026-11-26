@@ -221,7 +221,7 @@ function render(p) {
 <script src="${up}office.js"></script>
 <header class="site"><div class="wrap">
   <a class="logo" href="${up}"><b data-office="brand">안심상속센터</b><span data-office="name"></span></a>
-  <a class="head-tel" data-tel href="#">전화 상담</a>
+  <a class="head-tel" href="${up}#consult">상담신청</a>
 </div></header>
 
 <section class="hero"><div class="wrap">
@@ -243,7 +243,7 @@ ${p.faq.map(([q, a]) => `    <details><summary>${esc(q)}</summary><div class="an
   <div class="cta"><h2>우리 가족 상황에 맞춰 함께 정리해 드립니다</h2>
     <p>다년간의 일본기업·중국기업 세무서비스 경험을 바탕으로 국제상속을 지원합니다.<br><b>해외에서 발급받아야 하는 필요서류 안내부터 발급까지 지원합니다.</b></p>
     <div class="lang">한국어 · 日本語 · 中文 상담</div>
-    <div class="row"><a class="a1" data-tel href="#">전화 상담</a><a class="a2" href="${up}#consult">상담 신청</a></div>
+    <div class="row"><a class="a1" href="${up}#consult">상담 신청</a><a class="a2" data-chat href="${up}#consult">채팅 상담</a></div>
   </div>
 
   <section class="card related"><h2>함께 보면 좋은 안내</h2><ul>${related}<li><a href="${up}calculator/">상속세 계산기(한국 거주자 기준) →</a></li></ul></section>

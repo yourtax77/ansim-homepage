@@ -192,4 +192,18 @@
   btn.onclick = open;
   win.querySelector('.ac-x').onclick = close;
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && win.classList.contains('open')) close(); });
+  // 페이지 안의 '채팅 상담' 버튼(data-chat)도 이 창을 엽니다
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-chat]');
+    if (!a) return;
+    e.preventDefault();
+    open();
+  });
+  // 휴대폰 하단 고정 메뉴에 '채팅 상담'이 있는 페이지는 떠 있는 버튼을 숨깁니다
+  if (document.querySelector('.mobile-bar [data-chat]')) {
+    var hide = document.createElement('style');
+    hide.textContent = '@media (max-width:760px){.ac-btn{display:none!important}}';
+    document.head.appendChild(hide);
+  }
+  window.openAnsimChat = open;
 })();
